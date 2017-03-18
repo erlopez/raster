@@ -8,6 +8,10 @@ requiring dynamic UI controls that can display dense amounts of data records suc
 as front-ends for database administration, report queries, product and server 
 configuration web consoles, etc.
 
+The UI controls in raster are not optimal for developing interfaces aimed at
+mobile phones and tablets, but rather meant for use in desktop computer web
+browsers applications.
+
 
 ## Which browsers Raster supports?
 
@@ -48,4 +52,8 @@ after that you can use the [Online Reference](http://www.lopezworks.info/raster/
 to find out more details on any given method and its parameters.
  
  
+## Archive Status
+
+Raster is no longer under active development. If you find it useful, by all means, use it.
+
 #### - happy coding : ) 
