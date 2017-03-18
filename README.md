@@ -42,9 +42,9 @@ Pretty much any modern web browser. Raster has been tested in:
 ## Getting Started
    
 The best way to get started is by downloading the project as a ZIP archive, 
-extract it to a temp folder, and opening the *.html files on the **/examples** 
+extract it to a temp folder, and opening the *.html files on the [/examples](http://www.lopezworks.info/raster/docs/examples.html) 
 folder using a browser. These files show how the basic UI controls are used; 
-after that you can use the [online docs] (http://www.lopezworks.info/raster/docs/index.html) 
+after that you can use the [Online Reference](http://www.lopezworks.info/raster/docs/index.html) 
 to find out more details on any given method and its parameters.
  
  
