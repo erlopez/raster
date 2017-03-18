@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - VectorBalls</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script src="vectorballs.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/****************************************************************
+ * Globals
+ ****************************************************************/
+var dialog, vectorBalls, vectorCanvas;
+var rx=0, ry=0, manualMoving=false;
+
+
+/****************************************************************
+ * Sprite Info for toolbar buttons
+ ****************************************************************/
+var BALLBUTTONS = (function() {
+    /** Factory function used to build instances of the IID_SPRITEINFO interface. */
+    function rect(_x, _y, _w, _h) { return {x:_x, y:_y, w:_w, h:_h, IID_SPRITEINFO:true, filename:'ballbuttons.png' }; };
+    // return sprite info constants
+    return {
+        PLANEX:                                  rect(0, 0, 32, 30),
+        TWISTIX:                                 rect(34, 0, 32, 32),
+        RINGUS:                                  rect(68, 0, 32, 32),
+        SPRINGEE:                                rect(102, 0, 32, 32),
+        WAVOUS:                                  rect(136, 0, 32, 32),
+        SOLIDEX:                                 rect(170, 0, 32, 32),
+        CUBBUS:                                  rect(204, 0, 32, 32),
+        GALAXUS:                                 rect(238, 0, 32, 30),
+        AUTO:                                    rect(272, 0, 32, 30),
+        NEXT:                                    rect(306, 0, 32, 28),
+        PREV:                                    rect(340, 0, 32, 28)
+    };
+})();
+
+/****************************************************************
+ * Define commands used in the toolbar  -  id, icon, icon32, text, toolText, tooltip, keys, eventHandler )
+ ****************************************************************/
+var cmds = [new RasterCommand("prev", null, BALLBUTTONS.PREV, "Prev", null, null, null, onToolbutton ),
+            new RasterCommand("next", null, BALLBUTTONS.NEXT, "Next", null, null, null, onToolbutton ),
+            new RasterCommand("auto", null, BALLBUTTONS.AUTO, "Auto", null, null, null, onToolbutton ).setSelected(true),
+            new RasterCommand("1", null, BALLBUTTONS.PLANEX, "Planex", null, null, null, onToolbutton ),
+            new RasterCommand("2", null, BALLBUTTONS.TWISTIX, "Twistix", null, null, null, onToolbutton ),
+            new RasterCommand("3", null, BALLBUTTONS.RINGUS, "Ringus", null, null, null, onToolbutton ),
+            new RasterCommand("4", null, BALLBUTTONS.SPRINGEE, "Springee", null, null, null, onToolbutton ),
+            new RasterCommand("5", null, BALLBUTTONS.WAVOUS, "Wavous", null, null, null, onToolbutton ),
+            new RasterCommand("6", null, BALLBUTTONS.SOLIDEX, "Solidex", null, null, null, onToolbutton ),
+            new RasterCommand("7", null, BALLBUTTONS.CUBBUS, "Cubbus", null, null, null, onToolbutton ),
+            new RasterCommand("8", null, BALLBUTTONS.GALAXUS, "Galaxus", null, null, null, onToolbutton )
+];
+
+
+/****************************************************************
+  Handle toolbar button clicks
+ ****************************************************************/
+function onToolbutton( cmd, event )
+{
+    if ( cmd.id == "prev" )
+        vectorBalls.prevPattern();
+    else if ( cmd.id == "next" )
+        vectorBalls.nextPattern();
+    else if ( cmd.id == "auto" )
+    {
+        cmd.setSelected( !cmd.isSelected );
+        vectorBalls.setAuto( cmd.isSelected );
+    }
+    else
+       vectorBalls.setPattern( parseInt(cmd.id) ); 
+}
+
+/****************************************************************
+  "Show Window" button shows the window again
+ ****************************************************************/
+function showWindow()
+{
+    dialog.center();
+    dialog.show();
+}
+
+/****************************************************************
+  Starts drag on a shape
+ ****************************************************************/
+function onMousedown( event )
+{
+    RasterMouse.startDrag(event, null, null, onMousemove);
+    rx = vectorBalls.rx;
+    ry = vectorBalls.ry;
+    manualMoving = true;
+}
+
+/****************************************************************
+  Rotates shape as mouse moves
+ ****************************************************************/
+function onMousemove(  e )
+{
+    if ( e.type=="up" )
+    {
+        manualMoving = false;
+        return;
+    }/*if*/
+
+    vectorBalls.ry = ry - (e.x - e.initial.x)/100;
+    vectorBalls.rx = rx + (e.y - e.initial.y)/100;
+
+    vectorBalls.paint();
+}
+
+/****************************************************************
+ * Main - called onload
+ ****************************************************************/
+function main()
+{
+    // Set Raster's folder location
+    Raster.config("../../raster");
+
+    // Create toolbar
+    var tb = new RasterToolbar("tool", 'l'); //tool=destination div, l=large toolbar
+    tb.showBackground( false );
+    tb.add( cmds[0]);
+    tb.add( cmds[1]);
+    tb.add( cmds[2]);
+    tb.addseparator();
+    tb.add( cmds[3]);
+    tb.add( cmds[4]);
+    tb.add( cmds[5]);
+    tb.add( cmds[6]);
+    tb.add( cmds[7]);
+    tb.add( cmds[8]);
+    tb.add( cmds[9]);
+    tb.add( cmds[10]);
+
+    // Create a dialog
+    dialog = new RasterDialog(null, ICONS16.APPLICATION, "Vectorballs 6.0");
+    dialog.setSize( 640, 564 );
+    dialog.setMovable( true );
+    dialog.center();
+    dialog.setButtons(false,false,false,true); //show close button
+    dialog.show(); //show dialog
+    dialog.setContent("dialogContent"); //move div#dialogContent element into dialog's content area
+    //f.setModal(true);
+
+    // Create empty control in div#arena
+    vectorCanvas = new RasterControl( "arena" );
+    vectorCanvas.setSize(640,480);
+    vectorCanvas.controlBox.onmousedown = onMousedown;
+    vectorCanvas.controlBox.style.zIndex = "0";
+    vectorCanvas.controlBox.style.position = "relative";
+    vectorCanvas.controlBox.style.overflow = "hidden";
+    vectorCanvas.controlBox.style.background = "black url(vectballsbk.jpg) no-repeat";
+
+    // Initialize VectorBalls instance and tell it to use
+    // the div inside vectorCanvas for drawing
+    vectorBalls = new VectorBalls( vectorCanvas.getContentElement(), 295, 215 );
+    vectorBalls.dx = 0.01;
+    vectorBalls.dy = 0.03;
+    vectorBalls.dy = 0.02;
+
+    // Create and start animation function
+    var doAnimation = function ()
+    {
+        if ( !manualMoving )
+        {
+            vectorBalls.animate();
+            vectorBalls.paint();
+        }/*if*/
+
+        setTimeout( doAnimation, "20");
+    };
+
+    doAnimation();
+}
+
+</script>
+<style type="text/css">
+   html, body { height:100%; border:0; margin:0; overflow:hidden;  }
+   body { font-family: Tahoma, serif; font-size: 9pt; background: #888; line-height: 20px; }
+
+   .ball4 {  position: absolute; width: 50px; height: 50px; background:  url(balls.png) no-repeat  -208px 0;}
+   .ball3 {  position: absolute; width: 50px; height: 50px; background:  url(balls.png) no-repeat  -154px 2px; }
+   .ball2 {  position: absolute; width: 50px; height: 50px; background:  url(balls.png) no-repeat  -101px 3px; }
+   .ball1 {  position: absolute; width: 50px; height: 50px; background:  url(balls.png) no-repeat  -47px 6px; }
+   .ball0 {  position: absolute; width: 50px; height: 50px; background:  url(balls.png) no-repeat  6px 7px; }
+
+
+   #pageContent { position: relative; overflow-y: auto; background: #fff;
+                  width:100%; height:100%; }
+
+   #tool { position: absolute; top: 0; left: 0; right:0; background: url(toolbk.gif) repeat-x;
+           height: 64px;  border-top: 1px solid #fff; border-left: 1px solid #fff; }
+
+   #status { position: absolute; bottom:0; left:0; right:0; padding: 0 4px; background: #cbcabe;
+             height: 17px; padding-top: 3px; font-size: 8pt; line-height: normal;}
+
+   #arena { position: absolute; top:0; left:0; background: #000;
+             width: 100%; height: 480px; margin-top: 64px }
+
+</style>
+<!--[if lte IE 6]><style type="text/css">
+   #status { width: expression( parentNode.offsetWidth-10 ); }
+   #tool { width: expression( parentNode.offsetWidth-1 ); }
+   #dialogContent {  width: expression( parentNode.offsetWidth );
+                     height: expression( parentNode.offsetHeight ); }
+   .ball2 { background-image:  url(balls.gif) }
+
+</style><![endif]-->
+</head>
+<body>
+
+<!-- page for, behing dialog -->
+<div id="pageContent" >
+
+    <!-- page content, behing dialog -->
+    <div style="padding:10px">
+        <h2>This demo demonstrates use of Raster's Dialog and Toolbar.</h2>
+        <ul>
+            <li>You can drag the window around.</li>
+            <li>You can close the window, press "Show Window" to show it again.</li>
+            <li>Click on toolbar buttons to change the shape</li>
+            <li>Drag the shape to rotate it manually. If you are using IE8 or earlier, be patient and
+                move slow to see the effect. These browsers are not fast. Try Firefox, Chrome, Safari,
+                or IE9 for a much faster experience.</li>
+        </ul>
+        <input type="button" onclick="showWindow();" value="Show Window"  />
+        <br><br>
+    </div>
+
+    <!-- to place in dialog's content area -->
+    <div id="dialogContent" class="rasterFill">
+        <div id="arena"></div>
+        <div id="tool"></div>
+        <div id="status">Click and drag the shape to rotate it manually.</div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

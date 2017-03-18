@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>RasterEvent.accept() - Raster v1.2 API Reference</title>
+    <link rel="stylesheet" href="res/style.css" />
+    <style type="text/css">
+        #idaccept { background-color: #D1D9DB}
+    </style>
+<!--[if lte IE 6]><style type="text/css">
+   .docEntry tt q,
+   .docEntry tt i,
+   .docEntry tt strong { left:-120px; }
+</style><![endif]-->
+</head>
+<body>
+    <div id="topbar"></div>
+    <div id="centerColumn">
+        <div id="titles">
+            <img src="res/logo.gif" id="logo" width="270" height="49">
+            <a href="http://www.lopezworks.info" id="logolink" title="Visit www.lopezworks.info"></a>
+        </div>
+
+        <div id="content">
+
+
+  <div class="docEntry">
+    <h2>RasterEvent.<span class='-method'>accept</span>(  <i>[<span class='-param'>position</span>]</i> )</h2>
+
+Highlights the object under the mouse as a potential drop target. This method can
+be invoked in event objects capable of handling drag-and-drop operations such as
+<code><a href='RasterTreeEvent.html'>RasterTreeEvent</a></code>, <code><a href='RasterListEvent.html'>RasterListEvent</a></code>, and <code><a href='RasterTabbarEvent.html'>RasterTabbarEvent</a></code>.
+<br><br>
+When a value is dragged over an <code>item</code> the control will
+issue an event with a <code>type</code> "over". In order for the
+<code>item</code> under the mouse to be highlighted as a potential drop target,
+the event handler must "accept" this event by invoking the <code><a href='RasterEvent$accept.html'>accept()</a></code> method.
+<br><br>
+If the event handler does not wishes to highlight the current item as a
+drop target, the <code><a href='RasterEvent$accept.html'>accept()</a></code> method should not be invoked.
+<br><br>
+The <code>position</code> property tells the event handler where the value
+being dragged is about to be dropped. This property may be one of the following values:
+<br><br>
+<b><tt><strong>Position Value</strong> Description </tt></b>
+<tt><q>before</q> Drop will happen before the given <code>item</code>.</tt>
+<tt><q>over</q>  Drop will happen over the given <code>item</code>.</tt>
+<tt><q>after</q>  Drop will happen after the given <code>item</code>.</tt>
+<br><br>
+The event handler may alter the default drop position by passing a new
+<code>position</code> to the <code><a href='RasterEvent$accept.html'>accept()</a></code> method. For example, if a list doesn't want to
+accept dragged values "over" any item, it can pass the argument "before" to the
+<code><a href='RasterEvent$accept.html'>accept()</a></code> method. This will make the drop target to render as an "insertion line"
+before the item instead of a "shaded box" over the item.
+<pre class='ccode'><span class='creserved'>function</span> myHandler( e )
+{
+   :
+   <span class='ccomment'>// do not accept drag values 'over' items,</span>
+   <span class='ccomment'>// only 'before' or 'after'</span>
+   <span class='creserved'>if</span> ( e.position==<span class='cstring'>"over"</span>  )
+      e.accept( <span class='cstring'>"before"</span> ); <span class='ccomment'>//convert "over" to "before"</span>
+   <span class='creserved'>else</span>
+      e.accept(); <span class='ccomment'>//Accept the current position</span>
+}</pre>
+If the "over" event is not accepted, the "drop" event will not fire on a item if
+the mouse button is released over the item.
+
+
+    <h3>Parameters</h3>
+    <table width="100%" border="0" cellspacing="0">
+      <col span="1" width="100px"/>
+      <col span="1" width="60px" />
+      <col span="1" width="60px" />
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>&nbsp;</th>
+        <th>Description</th>
+      </tr>
+
+      <tr>
+        <td class="names">position</td>
+        <td class="types">string</td>
+        <td class="optionals">optional</td>
+        <td>
+ Overwrites current <code>position</code> value. If this argument
+is not specified, the current <code>position</code> value is used.
+This argument is case-sensitive. Any value other than "over", "before",
+or "after" will evaluate as "over".</td>
+      </tr>
+    </table>
+
+
+
+
+    <h3>See Also</h3>
+    <ul>
+
+
+<li><a href="RasterTreeEvent.html">RasterTreeEvent</a></li>
+
+<li><a href="RasterListEvent.html">RasterListEvent</a></li>
+
+<li><a href="RasterTabbarEvent.html">RasterTabbarEvent</a></li>
+    </ul>
+
+  </div>
+
+        </div>
+        <div id="index">
+           
+           
+               <a id="indexhtml" class="pageLink" href="index.html">Home</a>
+               <a id="exampleshtml" class="pageLink" href="examples.html">Examples</a>
+               <a id="downloadhtml" class="pageLink" href="download.html">Download</a>
+               <a id="licensehtml" class="pageLink" href="license.html">License</a>
+               <!--<a id="gettingstartedhtml" class="pageLink" href="_gettingstarted.html">Getting Started</a>-->
+           
+               
+                   <div class="subindex">
+                       <a id="idRasterEvent" class="brickLink" href="RasterEvent.html">RasterEvent</a>
+                       
+                       <a id="idIID_RASTER_EVENT" class="propLink" href="RasterEvent$IID_RASTER_EVENT.html">IID_RASTER_EVENT</a>
+                       <a id="idisCancelled" class="propLink" href="RasterEvent$isCancelled.html">isCancelled</a>
+                       
+                       <a id="idaccept" class="methodLink "href="RasterEvent$accept.html">accept()</a>
+                       
+                       
+                       <a id="idcancel" class="methodLink "href="RasterEvent$cancel.html">cancel()</a>
+                       
+                       
+                   </div>
+               
+           
+               <div class="subindex">
+               
+               <a id="idCURSORS" class="brickLink" href="CURSORS.html">CURSORS</a>
+               <a id="idICONS16" class="brickLink" href="ICONS16.html">ICONS16</a>
+               <a id="idICONS32" class="brickLink" href="ICONS32.html">ICONS32</a>
+               <a id="idRaster" class="brickLink" href="Raster.html">Raster</a>
+               <a id="idRasterCommand" class="brickLink" href="RasterCommand.html">RasterCommand</a>
+               <a id="idRasterCommandItem" class="brickLink" href="RasterCommandItem.html">RasterCommandItem</a>
+               <a id="idRasterControl" class="brickLink" href="RasterControl.html">RasterControl</a>
+               <a id="idRasterDialog" class="brickLink" href="RasterDialog.html">RasterDialog</a>
+               <a id="idRasterDialogEvent" class="brickLink" href="RasterDialogEvent.html">RasterDialogEvent</a>
+               <a id="idRasterGraphics" class="brickLink" href="RasterGraphics.html">RasterGraphics</a>
+               <a id="idRasterList" class="brickLink" href="RasterList.html">RasterList</a>
+               <a id="idRasterListEvent" class="brickLink" href="RasterListEvent.html">RasterListEvent</a>
+               <a id="idRasterListItem" class="brickLink" href="RasterListItem.html">RasterListItem</a>
+               <a id="idRasterMenu" class="brickLink" href="RasterMenu.html">RasterMenu</a>
+               <a id="idRasterMouse" class="brickLink" href="RasterMouse.html">RasterMouse</a>
+               <a id="idRasterMouseEvent" class="brickLink" href="RasterMouseEvent.html">RasterMouseEvent</a>
+               <a id="idRasterSplitter" class="brickLink" href="RasterSplitter.html">RasterSplitter</a>
+               <a id="idRasterSplitterEvent" class="brickLink" href="RasterSplitterEvent.html">RasterSplitterEvent</a>
+               <a id="idRasterSprite" class="brickLink" href="RasterSprite.html">RasterSprite</a>
+               <a id="idRasterTabbar" class="brickLink" href="RasterTabbar.html">RasterTabbar</a>
+               <a id="idRasterTabbarEvent" class="brickLink" href="RasterTabbarEvent.html">RasterTabbarEvent</a>
+               <a id="idRasterTabItem" class="brickLink" href="RasterTabItem.html">RasterTabItem</a>
+               <a id="idRasterToolbar" class="brickLink" href="RasterToolbar.html">RasterToolbar</a>
+               <a id="idRasterTree" class="brickLink" href="RasterTree.html">RasterTree</a>
+               <a id="idRasterTreeEvent" class="brickLink" href="RasterTreeEvent.html">RasterTreeEvent</a>
+               <a id="idRasterTreeItem" class="brickLink" href="RasterTreeItem.html">RasterTreeItem</a>
+               </div>
+           
+        </div>
+
+        <span style="clear:both">&nbsp;</span>
+    </div>
+    <div class="copy">Copyright &copy; 2010-2017 Edwin R. L&oacute;pez</div>
+</body>
+</html>

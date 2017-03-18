@@ -1,0 +1,150 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample Menus</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/***********************************************************
+ * Globals
+ ***********************************************************/
+var  menu1, menu2; //initilized in main()
+
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    //0. Tell Raster where the /raster folder is
+    Raster.config("../../raster");
+
+    //1. Define menu commands
+    var cmd = RasterCommand.createGroup( commandHandler );
+
+    cmd.add( "new",  ICONS16.PAGE,      null, "New" );
+    cmd.add( "cd",   ICONS16.CD,        null, "Burn CD..." );
+    cmd.add( "app",  ICONS16.CALENDAR,  null, "New Appointment..." );
+    cmd.add( "mail", ICONS16.EMAIL,     null, "Check Mail..." ).setEnabled( false ); //disable
+    cmd.add( "help", ICONS16.HELP,      null, "Help" );
+    cmd.add( "font", null,              null, "Font Size" );
+
+    cmd.add( "small", null, null, "Small" );
+    cmd.add( "medium",null, null, "Medium" );
+    cmd.add( "large", null, null, "Large" );
+
+    //2. Create menus
+    menu1 = new RasterMenu();
+    menu1.setMinWidth(150);   //don't allow menu to be narrower than 150px - look nicer
+
+    menu2 = new RasterMenu();
+
+    //3. Add menu options
+    menu1.add( cmd('new') );
+    menu1.addseparator();
+    menu1.add( cmd('cd') );
+    menu1.add( cmd('app') );
+    menu1.add( cmd('mail') );
+    menu1.addseparator();
+    menu1.add( cmd('help') );
+    menu1.addseparator();
+    menu1.add( cmd('font'), menu2 );  //note the 'font' menu-option cascades into menu2
+
+    menu2.add( cmd('small') );
+    menu2.add( cmd('medium') );
+    menu2.add( cmd('large') );
+    menu2.addseparator();
+    menu2.add( cmd('help') ); //reuses the 'help' command
+
+    //4. Hook a page context listener
+    Raster.addListener( document, "contextmenu", onRightClick );
+
+    //4. clear log console
+    document.getElementById( 'txt' ).value='';
+}
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+}
+
+/***********************************************************
+ * Event handler for executed commands
+ ***********************************************************/
+function commandHandler( cmd )
+{
+    log ( "command clicked: '" + cmd.id + "'" );
+}
+
+/***********************************************************
+ * Event handler for page context menu
+ ***********************************************************/
+function onRightClick( event )
+{
+    Raster.stopEvent( event );                  //prevent default context menu from appearing
+
+    var mouse = Raster.getInputState( event );  //get mouse position
+    menu2.showAt( mouse.x,  mouse.y, true );    //show our menu
+}
+
+</script>
+<style type="text/css">
+   body { background-color:#eee; font-family: tahoma, serif; font-size: 9pt}
+</style>
+</head>
+<body>
+    <h3>Demonstrates use of command groups and popup menus:</h3>
+
+    <!-- textbox used for logging -->
+    Log Output:<br>
+    <textarea id="txt" rows="10" cols="72"></textarea>
+    <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+
+    <div style="text-align:center; padding-top:50px">
+        This button shows a drop down menu when clicked:
+        <input type="button" value="click me" onclick="menu1.showBelowOf(this, 0, -4);">
+
+        <br><br><br>
+
+        This link shows a pop up menu next to it:
+        <a href="#" onclick="menu2.showNextTo(this); return false;">click me &raquo;</a>
+
+        <br><br><br>
+
+        Right-click anywhere in the page to show a menu.
+
+    </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1929 @@
+/******************************************************************************
+ * This file is part of the Raster UI Library.
+ * http://www.lopezworks.info/raster
+ *
+ * Copyright (C) 2010 Edwin R. Lopez
+ *
+ * This source code is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation LGPL v2.1
+ * (http://www.gnu.org/licenses/).
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301  USA.
+ *****************************************************************************/
+
+/*************************************************************************************
+  List
+ *************************************************************************************/
+div.rasterList {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    overflow: hidden;
+    cursor: default;
+    background: #fff;
+    border: 1px solid;
+    border-color: #888 #f0f0f0 #f0f0f0 #888;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+    text-align:left;
+    line-height: normal;
+    color: #000;
+}
+
+div.rasterListContent {
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+/** LIST ITEM 
+>>>>>>>>>>>>>>>>>>>>>>> */
+div.rasterListItem {
+    white-space: nowrap;
+}
+
+div.rasterListItem span.rasterListItemIco {
+    padding:  2px 2px 0;
+}
+
+div.rasterListItem  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index:0;
+    padding: 0 2px;
+    height: 20px;
+}
+
+div.rasterListItem  a,
+div.rasterListItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #555;
+    text-align: center;
+}
+
+div.rasterListItem a:hover span {
+    color: #000;
+}
+
+div.rasterListItem a span.rasterBkleft,
+div.rasterListItem a span.rasterBkright {
+    position: absolute;
+    display: block;
+    height: 24px;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+div.rasterListItem a span.rasterBkleft {
+    left: 0;
+}
+
+div.rasterListItem a span.rasterBkright {
+    right: 0;
+}
+
+
+div.rasterListItem a span.rasterListItemTxt {
+    padding:  3px 2px;
+}
+
+/*** list item - Selected/Disabled ***/
+a.rasterListItemSelected span,
+div.rasterListItem a.rasterListItemSelected:hover span {
+    color: #fff;
+}
+a.rasterListItemSelected span.rasterBkright {
+    background: url(images/_bg.png) no-repeat   right -656px;
+}
+a.rasterListItemSelected span.rasterBkleft {
+    background: url(images/_bg.png) no-repeat   left -656px ;
+}
+
+div.rasterListItem a.rasterListItemDisabled:hover,
+a.rasterListItemDisabled span.rasterListItemTxt,
+a.rasterListItemDisabled:hover span.rasterListItemTxt {
+    color: #ccc;
+    background: none;
+}
+
+/** GRID LIST ITEM >>>>>>>>>>>>>>>>>>>>>>> */
+span.rasterGridListItem {
+    display: inline-block;
+    padding: 0 3px;
+    min-height: 73px;
+    vertical-align: top;
+}
+span.rasterGridListItem  a {
+    position: relative;
+    text-decoration: none;
+    z-index: 0;
+    margin-top: 5px;
+    padding: 0 4px 3px;
+    color: #555;
+}
+
+span.rasterGridListItem  a,
+span.rasterGridListItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+    text-align: center;
+}
+
+span.rasterGridListItem a span.rasterBktop,
+span.rasterGridListItem a span.rasterBkbottom {
+    height: 80%;
+    position: absolute;
+    display: block;
+    left: 0;
+    width: 73px;
+    z-index: -1;
+}
+
+span.rasterGridListItem a span.rasterBktop {
+    top: 0;
+}
+
+span.rasterGridListItem a span.rasterBkbottom {
+    bottom: 0;
+}
+
+
+span.rasterGridListItem a span.rasterListItemIco {
+    margin-top: 3px;
+    height: 32px;
+}
+span.rasterGridListItem a span.rasterListItemIco16 {
+    margin-top: 11px;
+    height: 16px;
+    margin-bottom: 8px;
+}
+span.rasterGridListItem a span.rasterListItemIco32 {
+    height: 35px;
+}
+
+
+span.rasterGridListItem a span.rasterListItemTxt {
+    width: 65px;
+    max-height: 40px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+/*** grid item - Selected/Disabled  ***/
+span.rasterGridListItem a.rasterListItemSelected span {
+    color: #555;
+}
+span.rasterGridListItem a.rasterListItemSelected span.rasterBkbottom {
+    background: url(images/_bgv.png) no-repeat   0 bottom;
+}
+span.rasterGridListItem a.rasterListItemSelected span.rasterBktop {
+    background: url(images/_bgv.png) no-repeat   0 top;
+}
+
+span.rasterGridListItem a.rasterListItemDisabled span.rasterListItemTxt,
+span.rasterGridListItem a.rasterListItemDisabled:hover span.rasterListItemTxt {
+    color: #ccc;
+    background: none;
+}
+
+
+/** TABLE LIST  >>>>>>>>>>>>>>>>>>>>>>> */
+div.rasterListContentTable {
+    top: 20px;
+}
+
+table.rasterTableList,
+table.rasterTableListHdr {
+    table-layout: fixed;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+    text-align:left;
+    color: #000;
+}
+table.rasterTableListHdr {
+    background: url(images/_bg.png) repeat-x  0 -902px;
+    border-bottom: 1px solid #aaa;
+}
+
+table.rasterTableListHdr th.TableListHdrSelected {
+    background: #eee;
+}
+
+div.rasterTableListHdrBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    overflow: hidden;
+    border-right: 17px solid #cbcabe;
+    background: #cbcabe;
+}
+
+tr.rasterTableListAltRow
+{
+    background: #f8f8f8;
+}
+
+table.rasterTableList td {
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+    
+    padding: 0 2px;
+    height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	text-align: left;
+}
+
+table.rasterTableList td span.rasterListItemIco {
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 3px;
+}
+table.rasterTableListNoIco td span.rasterListItemIco {
+    display: none;
+}
+
+table.rasterTableListHdr th {
+    border-right: 1px solid #aaa;
+    padding: 0 2px;
+    height: 19px;
+	text-align: left;
+    background: url(images/_bg.png) no-repeat 0 -935px;
+}
+
+div.rasterTableListHdr {
+    position: relative;
+}
+div.rasterTableListHdrTxt {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width:  90%;
+}
+div.rasterTableListHdrSort {
+    position: absolute;
+    width: 11px;
+    height: 8px;
+    right: 0;       /*raster 1.1*/
+    top: 5px;
+}
+div.rasterTableListHdrSize {
+    position: absolute;
+    width: 5px;
+    height: 20px;
+    left: 14px;
+    top: -8px;
+    cursor: w-resize;
+    z-index: 1;
+}
+
+div.rasterTableListHideSz div.rasterTableListHdrSize {
+    cursor: default;
+}
+
+table.rasterTableListHdr th.TableListHdrAsc div.rasterTableListHdrSort {
+    background: url(images/_glyphs.gif) no-repeat -174px 0;
+}
+
+table.rasterTableListHdr th.TableListHdrDesc div.rasterTableListHdrSort {
+    background: url(images/_glyphs.gif) no-repeat -187px 0;
+}
+
+table.rasterTableListHdr th.TableListHdrAsc div.rasterTableListHdr div.rasterTableListHdrTxt,
+table.rasterTableListHdr th.TableListHdrDesc div.rasterTableListHdr div.rasterTableListHdrTxt {
+    width:  auto;
+    margin-right: 12px;
+} /*raster 1.1*/
+
+
+/*** table item - Selected/Disabled  ***/
+tr.rasterListItemSelected  {
+    color: #eff3f4;
+    background: #0066cc url(images/_bg.png) repeat-x 0 -968px;
+}
+
+tr.rasterListItemSelected td {
+    border-color: #a3afd2;
+}
+
+tr.rasterListItemDisabled
+{
+    color: #ccc;
+}
+
+/** THUMB LIST ITEM >>>>>>>>>>>>>>>>>>>>>>> */
+span.rasterThumbListItem {
+    display: inline-block;
+    padding: 0 3px;
+    vertical-align: top;
+}
+span.rasterThumbListItem  a {
+    text-decoration: none;
+    z-index: 0;
+    margin-top: 5px;
+    padding: 1px 7px 4px 5px;
+    color: #555;
+}
+
+span.rasterThumbListItem  a,
+span.rasterThumbListItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: middle;
+    text-align: center;
+}
+
+span.rasterThumbListItem a img.rasterThumbnail {
+    border: 1px solid #999;
+    vertical-align: middle;
+}
+span.rasterThumbListItem a span.rasterListItemThumb {
+    padding-top: 3px;
+    font-size: 1px;
+    white-space: nowrap;
+}
+
+span.rasterThumbListItem a span.rasterListItemTxt {
+    width: 75px;
+    max-height: 40px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+/*** thumb item - Selected/Disabled  ***/
+span.rasterThumbListItem a.rasterListItemSelected span {
+    color: #555;
+}
+span.rasterThumbListItem a.rasterListItemSelected {
+    padding: 0 6px 3px 4px;
+    border: 1px dotted #99ccff;
+    background: #E7F4F9;
+}
+
+span.rasterThumbListItem a.rasterListItemDisabled span.rasterListItemTxt,
+span.rasterThumbListItem a.rasterListItemDisabled:hover span.rasterListItemTxt {
+    color: #ccc;
+    background: none;
+}
+
+
+/*** patch for quirks mode ***/
+div.rasterListQuirks,
+div.rasterListQuirks div.rasterList,
+div.rasterListQuirks div.rasterListContent {
+    width: 100%;
+    height: 100%;
+}
+
+/* table */
+div.rasterListQuirks div.rasterTableListHdrBox {
+    width:100%;
+}
+
+div.rasterListQuirks div.rasterListContentTable
+{
+    width: 100%;
+    height: expression(this.parentNode.clientHeight-20);
+}
+  
+/* grid */
+div.rasterListQuirks span.rasterGridListItem  a {
+    padding: 1px 5px 4px 5px;
+}
+
+div.rasterListQuirks span.rasterGridListItem a span.rasterBktop,
+div.rasterListQuirks span.rasterGridListItem a span.rasterBkbottom {
+    display:none;
+}
+
+div.rasterListQuirks span.rasterGridListItem a.rasterListItemSelected {
+    padding: 0 4px 3px 4px;
+    border: 1px solid #99ccff;
+    background: #E7F4F9 url(images/_bgv.png) no-repeat -75px 0;
+}
+
+div.rasterListQuirks span.rasterGridListItem a span.rasterListItemTxt {
+    height: expression( this.scrollHeight > 40 ? "40px" : "auto" );
+}
+
+/* thumbs */
+span.rasterThumbListItem a span.rasterListItemTxt {
+    margin-bottom: 1px;
+    height: expression( this.scrollHeight > 40 ? "40px" : "auto" );
+}
+
+span.rasterListItemThumb span.rasterSprite {
+    margin-top: expression( ( this.parentNode.clientHeight-this.offsetHeight) / 2);
+}
+
+span.rasterThumbListItem a.rasterListItemSelected {
+    border: 1px dotted #99ccff;
+    background: #E7F4F9;
+}
+
+
+/*************************************************************************************
+  Tree
+ *************************************************************************************/
+div.rasterTree {
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    cursor: default;
+    background: #fff;
+    border: 1px solid;
+    border-color: #888 #f0f0f0 #f0f0f0 #888;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+    text-align:left;
+    line-height: normal;
+    color: #000;
+}
+
+
+div.rasterTreeItem {
+    position: relative;
+}
+
+div.rasterTreeItemVline {
+    position: absolute;
+    display: none;
+    width: 1px;
+    left: 24px;
+    top: 20px;
+    background: url(images/_glyphs.gif) repeat-y  -85px 1px;
+    font-size: 0;  /* nedded in IE quirks*/
+}
+
+
+div.rasterTreeItemChildren {
+    display: none;
+    padding-left: 19px;
+}
+
+div.rasterTreeItemLabel {
+    display: inline-block; /*prevents all IEs from messing up icons while dragging*/
+    white-space: nowrap;
+    position: relative; /*helps margin in nested nodes not to collapse left in IE quirks*/
+}
+
+div.rasterTreeItemLabel  a,
+div.rasterTreeItemLabel  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #555;
+}
+
+span.rasterTreeItemLabelToggle {
+    position: relative;
+    height: 18px;
+}
+
+span.rasterTreeItemLabelDash {
+    margin-top:  9px;
+    margin-left: 7px;
+    width: 9px;
+    height: 1px;
+    background:  url(images/_glyphs.gif) no-repeat  -88px 0 ;
+}
+
+span.rasterTreeItemLabelPlus {
+    margin-top:  4px;
+    margin-left: 0;
+    width: 16px;
+    height: 11px;
+    background:  url(images/_glyphs.gif) no-repeat  -117px 0 ;
+}
+
+span.rasterTreeItemLabelMinus {
+    margin-top:  4px;
+    margin-left: 0;
+    width: 16px;
+    height: 11px;
+    background:  url(images/_glyphs.gif) no-repeat  -99px 0 ;
+}
+
+span.rasterTreeItemLabelIco {
+    padding: 2px 2px 0;
+}
+
+div.rasterTreeItemLabel  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index:0;
+    padding: 0 2px;
+    height: 20px;
+}
+
+div.rasterTreeItemLabel  a:hover span {
+    color: #000;
+}
+
+div.rasterTreeItemLabel a span.rasterBkleft,
+div.rasterTreeItemLabel a span.rasterBkright {
+    position: absolute;
+    display: block;
+    height: 20px;
+    width: 80%;
+    top: 0;
+    z-index: -1;
+}
+
+div.rasterTreeItemLabel a span.rasterBkleft {
+    left: 0;
+}
+
+div.rasterTreeItemLabel a span.rasterBkright {
+    right: 0;
+}
+
+div.rasterTreeItemLabel a span.rasterItemTxt {
+    padding:  3px 2px;
+}
+
+/*** Selected Tree Item ***/
+a.rasterTreeItemSelected span,
+div.rasterTreeItemLabel a.rasterTreeItemSelected:hover span {
+    color: #fff;
+}
+
+a.rasterTreeItemSelected span.rasterBkright {
+    background: url(images/_bg.png) no-repeat   right -656px;
+}
+a.rasterTreeItemSelected span.rasterBkleft {
+    background: url(images/_bg.png) no-repeat   left -656px ;
+}
+
+/*** Header Tree Item ***/
+a.rasterTreeItemHeader span {
+    font-weight: bold;
+}
+
+/*** Disabled Tree Item ***/
+a.rasterTreeItemDisabled span,
+div.rasterTreeItemLabel a.rasterTreeItemDisabled:hover span {
+    color: #ccc;
+}
+
+div.rasterTreeItemLabel  a.rasterTreeItemDisabled:hover {
+    background: none;
+}
+
+/*** no lines styles ***/
+div.rasterTreeNolines {}
+div.rasterTreeNolines div.rasterTreeItemVline,
+div.rasterTreeNolines span.rasterTreeItemLabelDash { background: none} /*off-sight*/
+div.rasterTreeNolines span.rasterTreeItemLabelPlus { background-position: -153px 0; }
+div.rasterTreeNolines span.rasterTreeItemLabelMinus { background-position: -135px 0; }
+
+/*** patch for quirks mode ***/
+div.rasterTreeQuirks  {
+    width: 100%;
+    height: 100%;    
+}
+
+
+/*************************************************************************************
+  ShadowBox
+ *************************************************************************************/
+div.rasterShadowBox {
+    position: absolute;
+    cursor: default;
+}
+div.rasterShadowBox div.rasterShadowBox0 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 20px;
+    right: 20px;
+    background: url( images/_dropshadow.png ) no-repeat top left;
+}
+div.rasterShadowBox div.rasterShadowBox1 {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    bottom: 0;
+    right: 0;
+    background: url( images/_dropshadow.png ) no-repeat bottom right;
+}
+div.rasterShadowBox div.rasterShadowBox2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: url( images/_dropshadow.png ) no-repeat top right;
+}
+div.rasterShadowBox div.rasterShadowBox3 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: url( images/_dropshadow.png ) no-repeat bottom left;
+}
+
+
+/* patch for quirks mode */
+div.rasterShadowBoxQuirks div.rasterShadowBox0 {
+    top: 0;
+    left: 0;
+    width: expression(this.parentNode.clientWidth-20);
+    height: expression(this.parentNode.clientHeight-20);
+}
+
+div.rasterShadowBoxQuirks div.rasterShadowBox1 {
+    top: expression(this.parentNode.offsetHeight - this.offsetHeight);
+    left: expression(this.parentNode.offsetWidth - this.offsetWidth);
+    width: expression(this.parentNode.clientWidth-20);
+    height: expression(this.parentNode.clientHeight-20);
+}
+
+div.rasterShadowBoxQuirks div.rasterShadowBox2 {
+    left: expression(this.parentNode.offsetWidth - this.offsetWidth);
+}
+
+div.rasterShadowBoxQuirks div.rasterShadowBox3 {
+    top: expression(this.parentNode.offsetHeight - this.offsetHeight);
+}
+
+/*************************************************************************************
+  Dialog
+ *************************************************************************************/
+div.rasterDialog {
+    position: absolute;
+    cursor: default;
+    z-index: 100;
+    text-align:left;
+    line-height: normal;
+}
+
+div.rasterDialog div.rdModal {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    background: #111;
+}
+
+div.rasterDialog div.rdCorner1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 90%;
+    background: url( images/_chrome.png ) no-repeat top left;
+}
+div.rasterDialog div.rdCorner2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 90%;
+    background: url( images/_chrome.png ) no-repeat top right;
+}
+div.rasterDialog div.rdCorner3 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60%;
+    height: 20%;
+    background: url( images/_chrome.png ) no-repeat bottom right;
+}
+div.rasterDialog div.rdCorner4 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 20%;
+    background: url( images/_chrome.png ) no-repeat bottom left;
+}
+
+
+div.rasterDialog div.rdTitlebar {
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 18px;
+    width: 80%;
+    top: 6px;
+    left: 6px;
+}
+div.rasterDialog div.rdTitlebar span.rdIco {
+    display: inline-block;
+    vertical-align: top;
+}
+div.rasterDialog div.rdTitlebar span.rdTitle {
+    display: inline-block;
+    vertical-align: top;
+    padding: 1px 0 0 3px;
+
+    font-family: Tahoma, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #504d43;    /*color*/
+}
+
+div.rasterDialog div.rdButtonbar {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+}
+div.rasterDialog div.rdButtonbar a {
+    display: inline-block;
+    cursor: default;
+    width: 16px;
+    height: 15px;
+    margin-left: 2px;
+    background: transparent url(images/_chrome-btns.png) no-repeat;
+}
+
+div.rasterDialog div.rdButtonbar a.rdMin { background-position: 0 0; }
+div.rasterDialog div.rdButtonbar a.rdWin { background-position: -18px 0; }
+div.rasterDialog div.rdButtonbar a.rdMax { background-position: -36px 0; }
+div.rasterDialog div.rdButtonbar a.rdClose{ background-position: -54px 0; }
+
+div.rasterDialog div.rdButtonbar a.rdMin:hover { background-position: -72px 0; }
+div.rasterDialog div.rdButtonbar a.rdWin:hover  { background-position: -90px 0; }
+div.rasterDialog div.rdButtonbar a.rdMax:hover  { background-position: -108px 0; }
+div.rasterDialog div.rdButtonbar a.rdClose:hover { background-position: -126px 0; }
+
+
+div.rasterDialog div.rdClipBox {  /*prevents content from bleeding out on very small dialog sizes*/
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+div.rasterDialog div.rdContent {
+    position: absolute;
+    overflow: hidden;
+    top: 26px;
+    left: 6px;
+    bottom: 6px;
+    right: 6px;
+    background: #D1CDC0;
+    border: 1px solid #888;   /*if you change this, update css-exp. in rdContentNoBgBorder for Quirks and IE6*/
+    color: black;
+    cursor: default;
+}
+
+div.rasterDialog div.rdContentNoBgBorder {
+    background: none;
+    border: none;
+}
+
+/* patch for quirks mode */
+div.rasterDialogQuirks div.rdContent {
+    width: expression(this.parentNode.clientWidth-12);  /*each side gap=6*/
+    height: expression(this.parentNode.clientHeight-32); /*top gap=26, bttom gap=6*/
+}
+
+div.rasterDialogQuirks  div.rdClipBox {
+    width:100%;
+    height:100%;
+}
+
+/*************************************************************************************
+  Splitter
+ *************************************************************************************/
+div.rasterSplitterT,
+div.rasterSplitterB,
+div.rasterSplitterL,
+div.rasterSplitterR {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: w-resize;
+    text-align:left;
+    line-height: normal;
+}
+div.rasterSplitterT,
+div.rasterSplitterB {
+    cursor: n-resize;
+}
+
+div.rasterSplitterPane1T {
+    position: absolute;
+    overflow: hidden;
+    font-size: 9pt;
+    cursor: default;
+    top: 0;
+    width: 100%;
+}
+
+div.rasterSplitterPane1B  {
+    position: absolute;
+    overflow: hidden;
+    font-size: 9pt;
+    cursor: default;
+    bottom: 0;
+    width: 100%;
+}
+div.rasterSplitterPane1L  {
+    position: absolute;
+    overflow: hidden;
+    font-size: 9pt;
+    cursor: default;
+    left: 0;
+    height: 100%;
+}
+div.rasterSplitterPane1R {
+    position: absolute;
+    overflow: hidden;
+    font-size: 9pt;
+    cursor: default;
+    right: 0;
+    height: 100%;
+}
+
+div.rasterSplitterPane2 {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 9pt;
+    cursor: default;
+}
+
+/* patch for quirks */
+div.rasterSplitterQuirks {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+div.rasterSplitterQuirks div.rasterSplitterPane2 {
+    top: 0;
+    left: 0;
+    height: expression(this.parentNode.clientHeight - parseInt(this.style.marginTop||0) - parseInt(this.style.marginBottom||0) );
+    width: expression(this.parentNode.clientWidth - parseInt(this.style.marginLeft||0) - parseInt(this.style.marginRight||0) );
+}
+
+
+/*************************************************************************************
+  InsertionLine
+ *************************************************************************************/
+div.rasterInsertionLineV,
+div.rasterInsertionLineH {
+    position: absolute;
+    font-size: 0;
+    z-index: 1000;
+    background: black;
+    cursor: default;
+}
+
+
+div.rasterInsertionLineV div {
+    position: absolute;
+    left: -5px;
+    width: 12px;
+    height: 6px;
+}
+div.rasterInsertionLineV div.a {
+    top:0;
+    background: url( images/_glyphs.gif) -55px 0;
+}
+div.rasterInsertionLineV div.b {
+    bottom: 0;
+    background: url( images/_glyphs.gif) -41px 0;
+}
+
+
+div.rasterInsertionLineH div {
+    position: absolute;
+    top: -5px;
+    height: 12px;
+    width: 6px;
+}
+div.rasterInsertionLineH div.a {
+    left: 0;
+    background: url( images/_glyphs.gif) -69px 0;
+}
+div.rasterInsertionLineH div.b {
+    right:0;
+    background: url( images/_glyphs.gif) -77px 0;
+}
+
+
+/*************************************************************************************
+  ShadeBox
+ *************************************************************************************/
+div.rasterShadeBox {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    background: url( images/_grille.gif);
+    z-index: 1000;
+    cursor: default;
+}
+
+
+/*************************************************************************************
+  BorderBox
+ *************************************************************************************/
+div.rasterBorderBox {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    z-index: 1000;
+    cursor: default;
+}
+
+div.rasterBorderBox div   {
+    position: absolute;
+    background: url( images/_grille.gif)
+}
+
+div.rasterBorderBox div.t { width: 100%; height: 5px; top: 0; left: 0 }
+div.rasterBorderBox div.r { width: 5px;  height: 100%; top:0; right:0 }
+div.rasterBorderBox div.l { width: 5px;  height: 100%; top:0; left:0 }
+div.rasterBorderBox div.b { width: 100%; height: 5px; bottom: 0; left: 0}
+
+
+
+/*************************************************************************************
+  TabBar
+ *************************************************************************************/
+div.rasterTabbar {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: default;
+    background: transparent url(images/_bg.png) repeat-x 0 -623px;
+    height: 28px;
+    z-index: 0;
+    text-align:left;
+    line-height: normal;
+}
+
+div.rasterTabbar div.baseline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid #888;
+    z-index: -1;
+}
+
+div.rasterTabbar div.items {
+    padding-left: 4px;
+    padding-right: 20px; /* space used for chevron*/
+}
+
+span.rasterTabbarItem {
+    display: inline-block;
+    padding-top: 4px;
+    vertical-align: top;
+}
+
+span.rasterTabbarItem  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index:0;
+    padding: 0 4px; 
+    margin-top: 2px;
+    height: 21px;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.rasterTabbarItem  a,
+span.rasterTabbarItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #555;
+}
+
+span.rasterTabbarItem a span.bkleft,
+span.rasterTabbarItem a span.bkright {
+    position: absolute;
+    display: block;
+    height: 24px;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+span.rasterTabbarItem a span.bkleft {
+    left: 0;
+    background: url(images/_bg.png) no-repeat   left -495px;
+}
+
+span.rasterTabbarItem a span.bkright {
+    right: 0;
+    background: url(images/_bg.png) no-repeat   right -495px;
+}
+
+span.rasterTabbarItem a span.tabIco {
+    padding-top: 4px;
+}
+
+span.rasterTabbarItem a span.tabTxt {
+    padding:  5px 3px 0;
+}
+
+
+/***Disabled Tab***/
+a.rasterTabItemDisabled span,
+a.rasterTabItemDisabled:hover span {
+    color: #bbb;
+    background: none;
+}
+
+
+/***Selected Tab***/
+span.rasterTabbarItem a.rasterTabItemSelected {
+    margin-top: 0;
+    height: 24px;
+}
+
+span.rasterTabbarItem a.rasterTabItemSelected span {
+    color: #000;
+}
+
+span.rasterTabbarItem   a.rasterTabItemSelected span.bkright {
+    background: url(images/_bg.png) no-repeat   right -426px;
+}
+span.rasterTabbarItem   a.rasterTabItemSelected span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -426px ;
+}
+
+
+/*************************************************************************************
+  Flip Tabs
+ *************************************************************************************/
+div.rasterTabbarFlip {
+    background-position:  0 -591px;
+}
+
+div.rasterTabbarFlip div.baseline {
+    top: 0;
+    height: 1px;
+    border-top: 1px solid #888;
+    border-bottom: 0;
+}
+
+div.rasterTabbarFlip span.rasterTabbarItem {
+    padding-top: 0;
+    margin-bottom: 10px;  /*push away down wrapped tabs beyond visible sight*/
+}
+
+div.rasterTabbarFlip span.rasterTabbarItem a {
+    margin-top: 1px;
+}
+div.rasterTabbarFlip span.rasterTabbarItem a span.tabIco {
+    padding-top: 2px;
+}
+div.rasterTabbarFlip span.rasterTabbarItem a span.tabTxt {
+    padding-top:  3px;
+}
+
+div.rasterTabbarFlip span.rasterTabbarItem a span.bkleft {
+    background-position:  left -541px;
+}
+div.rasterTabbarFlip span.rasterTabbarItem a span.bkright {
+    background-position:   right -541px;
+}
+
+div.rasterTabbarFlip span.rasterTabbarItem a.rasterTabItemSelected {
+    margin-top: 0;
+    padding-top: 0;
+}
+div.rasterTabbarFlip span.rasterTabbarItem  a.rasterTabItemSelected span.bkright {
+    background-position:  right -469px;
+}
+div.rasterTabbarFlip span.rasterTabbarItem  a.rasterTabItemSelected span.bkleft {
+    background-position:  left -469px ;
+}
+
+
+
+
+
+/*************************************************************************************
+  Thin Toolbar
+ *************************************************************************************/
+div.rasterThinbar {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: default;
+    background: #f3f2ed url(images/_bg.png) repeat-x 0 0;
+    height: 28px;
+    text-align:left;
+    line-height: normal;
+}
+
+div.rasterThinbar div.items {
+    padding-right: 20px; /* space used for chevron*/
+}
+
+
+div.rasterThinbar span.sep {
+    height: 18px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px 4px 0 4px;
+    border-left: 1px solid #ccc;
+    overflow: hidden;
+    font-size: 0;
+}
+
+
+span.rasterThinbarItem {
+    display: inline-block;
+    padding: 2px 0 0 2px;
+}
+
+span.rasterThinbarItem  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index:0;
+    padding: 0 4px;
+    height: 24px;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.rasterThinbarItem  a,
+span.rasterThinbarItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+span.rasterThinbarItem a span.bkleft,
+span.rasterThinbarItem a span.bkright {
+    position: absolute;
+    display: block;
+    height: 24px;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+span.rasterThinbarItem a span.bkleft {
+    left: 0;
+}
+
+span.rasterThinbarItem a span.bkright {
+    right: 0;
+}
+
+span.rasterThinbarItem a span.cmdIco {
+    padding-top: 4px;
+}
+
+span.rasterThinbarItem a br.cmdCRLF {
+    display: none;
+}
+
+span.rasterThinbarItem a span.cmdTxt {
+    padding:  5px 2px 0;
+}
+
+span.rasterThinbarItem a span.cmdKey {
+    display: none;
+}
+
+span.rasterThinbarItem a span.cmdArrow,
+span.rasterThinbarItem a:hover span.cmdArrow {
+    margin:  10px 0 0 3px;
+    height: 4px;
+    width: 7px;
+    font-size: 0;
+    background: url(images/_glyphs.gif) no-repeat
+
+}
+
+
+/*************************************************************************************
+  Thick Toolbar
+ *************************************************************************************/
+div.rasterThickbar {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: default;
+    background: #f3f2ed url(images/_bg.png) repeat-x 0 0;
+    height: 48px;
+    text-align:left;
+    line-height: normal;
+}
+
+div.rasterThickbar div.items {
+    padding-right: 20px; /* space used for chevron*/
+}
+
+
+div.rasterThickbar span.sep {
+    height: 35px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 6px 4px 0 4px;
+    border-left: 1px solid #ccc;
+    overflow: hidden;
+    font-size: 0;
+
+}
+
+span.rasterThickbarItem {
+    display: inline-block;
+    padding: 4px 0 0 2px;
+    text-align: center;
+}
+
+span.rasterThickbarItem  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index: 0;
+    padding: 0 4px;
+    height: 40px;
+    /*min-width: 40px;*/
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.rasterThickbarItem  a,
+span.rasterThickbarItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+}
+
+span.rasterThickbarItem a span.bkleft,
+span.rasterThickbarItem a span.bkright {
+    height: 40px;
+    position: absolute;
+    display: block;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+span.rasterThickbarItem a span.bkleft {
+    left: 0;
+}
+
+span.rasterThickbarItem a span.bkright {
+    right: 0;
+}
+
+
+span.rasterThickbarItem a span.cmdIco {
+    padding-top: 5px;
+}
+
+span.rasterThickbarItem a br.cmdCRLF {
+    display: inline;
+}
+
+span.rasterThickbarItem a span.cmdTxt {
+    padding: 2px 0 0;
+}
+
+span.rasterThickbarItem a span.cmdKey {
+    visibility: hidden;   /*use this element as shim, hidden but still occupies space*/
+    overflow: hidden;
+    width: 40px;          /*the min-width of the thick button */
+}
+
+span.rasterThickbarItem a span.cmdArrow,
+span.rasterThickbarItem a:hover span.cmdArrow {
+    position: absolute;
+    height: 4px;
+    width: 7px;
+    top: 20px;
+    right: 4px;
+    font-size: 0;
+    background: url(images/_glyphs.gif) no-repeat
+
+}
+
+/**** Toolbar chevron ****/
+div.chevron {
+    position: absolute;
+    top: 0;
+    right: 2px;
+}
+
+div.chevron  a {
+    padding: 0 ;
+}
+
+div.chevron a span.tabIco,
+div.chevron a span.cmdIco {
+    margin: 0 3px 0 4px;
+}
+
+div.chevron a span.cmdKey {
+    display: none; /*removes the min-width of the thick button */
+}
+
+/*************************************************************************************
+  XLarge Toolbar
+ *************************************************************************************/
+div.rasterXLbar {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: default;
+    background: #f3f2ed url(images/_bg.png) repeat-x 0 0;
+    height: 64px;
+    text-align:left;
+    line-height: normal;
+}
+
+div.rasterXLbar div.items {
+    padding-right: 20px; /* space used for chevron*/
+}
+
+div.rasterXLbar span.sep {
+    height: 51px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 6px 4px 0 4px;
+    border-left: 1px solid #ccc;
+    overflow: hidden;
+    font-size: 0;
+
+}
+
+span.rasterXLbarItem {
+    display: inline-block;
+    padding: 6px 0 0 2px;
+    text-align: center;
+}
+
+span.rasterXLbarItem  a {
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    z-index: 0;
+    padding: 0 4px;
+    height: 54px;
+    /*min-width: 40px;*/
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.rasterXLbarItem  a,
+span.rasterXLbarItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+}
+
+span.rasterXLbarItem a span.bkleft,
+span.rasterXLbarItem a span.bkright {
+    height: 54px;
+    position: absolute;
+    display: block;
+    top: 0;
+    width: 80%;
+    z-index: -1;
+}
+
+span.rasterXLbarItem a span.bkleft {
+    left: 0;
+}
+
+span.rasterXLbarItem a span.bkright {
+    right: 0;
+}
+
+
+span.rasterXLbarItem a span.cmdIco {
+    padding-top: 3px;
+}
+
+span.rasterXLbarItem a br.cmdCRLF {
+    display: inline;
+}
+
+span.rasterXLbarItem a span.cmdTxt {
+    padding: 2px 0 0;
+}
+
+span.rasterXLbarItem a span.cmdKey {
+    visibility: hidden;   /*use this element as shim, hidden but still occupies space*/
+    overflow: hidden;
+    width: 40px;          /*the min-width of the thick button */
+}
+
+span.rasterXLbarItem a span.cmdArrow,
+span.rasterXLbarItem a:hover span.cmdArrow {
+    position: absolute;
+    height: 4px;
+    width: 7px;
+    top: 20px;
+    right: 4px;
+    font-size: 0;
+    background: url(images/_glyphs.gif) no-repeat
+
+}
+
+
+/*************************************************************************************
+  Popup Menu Item
+ *************************************************************************************/
+div.rasterPopupMenu {
+    text-align:left;
+    line-height: normal;
+    position: absolute;
+    display: block;
+    z-index: 500;
+}
+
+
+div.rasterPopupMenu div.hatch {
+    position: absolute;
+    border-top: 1px solid #fff;
+    font-size: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: 1;
+}
+
+ div.rasterPopupMenu div.rasterShadowBox {
+    top: 0;
+    left: 0;
+    z-index: -1;
+ }
+
+
+div.rasterPopupMenu div.items {
+    width: 50px; /*default empty menu width*/
+    padding: 2px;
+    cursor: default;
+    border: 1px solid #888;
+    color: #444;
+    background: #fff url(images/_menu-vbar.gif) repeat-y top left;
+}
+
+div.rasterPopupMenu div.items span.sep {
+    height: 0;
+    display: block;
+    margin: 4px 4px 3px 32px;
+    border-top: 1px solid #CCC;
+    overflow: hidden;
+    font-size: 0;
+
+}
+
+span.rasterPopupMenuItem {
+    display: block;
+}
+
+span.rasterPopupMenuItem  a {
+    position: relative;
+    display: block;
+    height: 24px;
+    cursor: default;
+    z-index: 0;
+    vertical-align: top;
+
+    font-family: tahoma, serif;
+    font-size: 8pt;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+span.rasterPopupMenuItem  span {
+    display: inline-block;
+    cursor: default;
+    vertical-align: top;
+}
+
+span.rasterPopupMenuItem a span.bkleft,
+span.rasterPopupMenuItem a span.bkright {
+    position: absolute;
+    display: block;
+    height: 24px;
+    top: 0;
+    width: 80%;
+    z-index: -2;
+}
+
+span.rasterPopupMenuItem a span.bkleft {
+    left: 0;
+}
+
+span.rasterPopupMenuItem a span.bkright {
+    right: 0;
+}
+
+
+span.rasterPopupMenuItem a span.bkicon {
+    position: absolute;
+    display: block;
+    height: 22px;
+    top: 1px;
+    left: 1px;
+    width: 23px ;
+    z-index: -1;
+}
+
+
+span.rasterPopupMenuItem a span.cmdIco {  /*never use margin left/right here */
+    padding: 4px 5px 0;
+}
+
+span.rasterPopupMenuItem a br.cmdCRLF {
+    display: none;
+}
+
+span.rasterPopupMenuItem a span.cmdTxt { /*never use margin left/right here */
+    padding:  5px 30px 0 7px;
+    white-space: nowrap;
+}
+
+span.rasterPopupMenuItem a .cmdKey { /*never use margin left/right here */
+    position: absolute;
+    display: block;
+    top: 5px;
+    right: 6px;
+    white-space: nowrap;
+}
+
+span.rasterPopupMenuItem a span.cmdArrow,
+span.rasterPopupMenuItem a:hover span.cmdArrow {    /*IE6 a:hover to be declared, so arrow don't go invisible on hover*/
+    position: absolute;
+    height: 7px;
+    width: 4px;
+    top: 9px;
+    right: 7px;
+    font-size: 0;
+    background: url(images/_glyphs.gif) no-repeat -18px 0;
+
+}
+
+/*************************************************************************************
+  Command item normal - Popup Menu & Toolbar Items
+ *************************************************************************************/
+a.rasterCommandItemNormalIE span,
+a.rasterCommandItemNormal span {
+    color: #333;
+}
+a.rasterCommandItemNormal:hover span {
+    color: #000;
+}
+
+
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover,
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover,
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover,
+span.rasterPopupMenuItem a.rasterCommandItemNormal:hover { /*make ie6 :hover > span selectors work*/
+    background: transparent;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkright {
+    background: transparent url(images/_bg.png) no-repeat   right -111px;
+}
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -111px ;
+}
+
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkright {
+    background: url(images/_bg.png) no-repeat   right -231px;
+}
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -231px ;
+}
+
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkright {
+    background: url(images/_bg.png) no-repeat   right -734px;
+}
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -734px ;
+}
+
+span.rasterPopupMenuItem a.rasterCommandItemNormal:hover  span.bkright {
+    background: url(images/_bg.png) no-repeat   right -111px;
+}
+span.rasterPopupMenuItem a.rasterCommandItemNormal:hover  span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -111px ;
+}
+
+
+/*************************************************************************************
+  Command item 'down' - Popup Menu & Toolbar Items
+ *************************************************************************************/
+a.rasterCommandItemDownIE span,
+a.rasterCommandItemDown span,
+a.rasterCommandItemDown:hover span {
+    color: #555;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemDown span.bkright {
+    background: url(images/_bg.png) no-repeat   right -85px;
+}
+span.rasterThinbarItem   a.rasterCommandItemDown span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -85px ;
+}
+
+span.rasterThickbarItem  a.rasterCommandItemDown span.bkright {
+    background: url(images/_bg.png) no-repeat   right -189px;
+}
+span.rasterThickbarItem  a.rasterCommandItemDown span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -189px ;
+}
+
+span.rasterXLbarItem  a.rasterCommandItemDown span.bkright {
+    background: url(images/_bg.png) no-repeat   right -678px;
+}
+span.rasterXLbarItem  a.rasterCommandItemDown span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -678px ;
+}
+span.rasterPopupMenuItem a.rasterCommandItemDownIE span.bkright,
+span.rasterPopupMenuItem a.rasterCommandItemDown span.bkright {
+    background: url(images/_bg.png) no-repeat   right -111px;
+}
+span.rasterPopupMenuItem a.rasterCommandItemDownIE span.bkleft,
+span.rasterPopupMenuItem a.rasterCommandItemDown span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -111px ;
+}
+
+/*************************************************************************************
+  Command item 'selected' - Popup Menu & Toolbar Items
+ *************************************************************************************/
+a.rasterCommandItemSelectedIE span,
+a.rasterCommandItemSelected span {
+    color: #555;
+}
+a.rasterCommandItemSelected:hover span {
+    color: #555;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover,
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover,
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover,
+span.rasterPopupMenuItem a.rasterCommandItemSelected:hover { /*make ie6 :hover > span selectors work*/
+    background: transparent;
+}
+
+
+span.rasterThinbarItem   a.rasterCommandItemSelected span.bkright {
+    background:  url(images/_bg.png) no-repeat   right -137px;
+}
+span.rasterThinbarItem   a.rasterCommandItemSelected span.bkleft {
+    background:  url(images/_bg.png) no-repeat   left -137px ;
+}
+
+span.rasterThickbarItem  a.rasterCommandItemSelected span.bkright {
+    background:  url(images/_bg.png) no-repeat   right -273px;
+}
+span.rasterThickbarItem  a.rasterCommandItemSelected span.bkleft {
+    background:  url(images/_bg.png) no-repeat   left -273px ;
+}
+
+span.rasterXLbarItem  a.rasterCommandItemSelected span.bkright {
+    background: url(images/_bg.png) no-repeat   right -790px;
+}
+span.rasterXLbarItem  a.rasterCommandItemSelected span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -790px ;
+}
+
+span.rasterPopupMenuItem a.rasterCommandItemSelectedIE span,
+span.rasterPopupMenuItem a.rasterCommandItemSelected span {
+    color: #000;
+}
+span.rasterPopupMenuItem a.rasterCommandItemSelectedIE span.bkicon,
+span.rasterPopupMenuItem a.rasterCommandItemSelected span.bkicon{
+    background:  url(images/_bg.png) no-repeat   left -564px;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover span.bkright {
+    background: url(images/_bg.png) no-repeat   right -163px;
+}
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -163px ;
+}
+
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover span.bkright {
+    background: url(images/_bg.png) no-repeat   right -315px;
+}
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -315px ;
+}
+
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover span.bkright {
+    background: url(images/_bg.png) no-repeat   right -846px;
+}
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -846px ;
+}
+
+span.rasterPopupMenuItem a.rasterCommandItemSelected:hover  span.bkright {
+    background: url(images/_bg.png) no-repeat   right -111px;
+}
+span.rasterPopupMenuItem a.rasterCommandItemSelected:hover  span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -111px ;
+}
+
+
+/*************************************************************************************
+  Command item 'disabled' - Popup Menu & Toolbar Items
+ *************************************************************************************/
+a.rasterCommandItemDisabled span,
+a.rasterCommandItemDisabled:hover span {
+    color: #AAA;
+    background: none;
+}
+
+/*************************************************************************************
+  Command item 'suspended' - Popup Menu & Toolbar Items
+  Used to suspend CommandItem hover effect in toolbars when a popup menu is open
+ *************************************************************************************/
+body.suspendCommandItemHover span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkright,
+body.suspendCommandItemHover span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkleft,
+body.suspendCommandItemHover span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkright,
+body.suspendCommandItemHover span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkleft,
+body.suspendCommandItemHover span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkright,
+body.suspendCommandItemHover span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkleft {
+    background: none;
+}
+body.suspendCommandItemHover span.rasterThinbarItem   a.rasterCommandItemSelected span.bkright {
+    background:  url(images/_bg.png) no-repeat   right -137px;
+}
+body.suspendCommandItemHover span.rasterThinbarItem   a.rasterCommandItemSelected span.bkleft {
+    background:  url(images/_bg.png) no-repeat   left -137px ;
+}
+body.suspendCommandItemHover span.rasterThickbarItem  a.rasterCommandItemSelected span.bkright {
+    background:  url(images/_bg.png) no-repeat   right -273px;
+}
+body.suspendCommandItemHover span.rasterThickbarItem  a.rasterCommandItemSelected span.bkleft {
+    background:  url(images/_bg.png) no-repeat   left -273px ;
+}
+body.suspendCommandItemHover span.rasterXLbarItem  a.rasterCommandItemSelected span.bkright {
+    background: url(images/_bg.png) no-repeat   right -790px;
+}
+body.suspendCommandItemHover span.rasterXLbarItem  a.rasterCommandItemSelected span.bkleft {
+    background: url(images/_bg.png) no-repeat   left -790px ;
+}
+
+/*************************************************************************************
+  Sprite
+ *************************************************************************************/
+span.rasterSprite {
+    text-align:left;
+    line-height: normal;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    cursor: default;
+    font-size: 0;
+}
+
+span.rasterCursorSprite {
+    position: absolute;
+    display: block;
+    overflow: hidden;
+    cursor: default;
+    font-size: 0;
+    z-index: 2000;
+}
+
+span.rasterSprite span.spritesContainer,
+span.rasterCursorSprite span.spritesContainer {
+    position: absolute;
+}
+
+/*************************************************************************************
+  Raster styles
+ *************************************************************************************/
+.rasterUnselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+
+.rasterFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.rasterFillQ {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.rasterInsetFill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    overflow: hidden;
+    cursor: default;
+    background: #fff;
+    border: 1px solid;
+    border-color: #888 #f0f0f0 #f0f0f0 #888;
+}
+
+.rasterBorderFill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    overflow: hidden;
+    cursor: default;
+    background: #fff;
+    border: 1px solid #aaa;
+}
+
+/*.rasterShadow {*/
+	/*-moz-box-shadow: 1px 1px 15px #000;*/
+	/*-webkit-box-shadow:  1px 1px 15px #000;*/
+	/*box-shadow:  1px 1px 15px #000;*//* very slow in IE9*/
+	/* For IE 8 */
+	/*-ms-filter: "progid:DXImageTransform.Microsoft.Blur(pixelradius=10)";*/
+	/* For IE 5.5 - 7 */
+	/*filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=10);*/
+/*}*/
+
+/*.rasterOpacity33 {*/
+    /*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)";*/
+    /*filter: Alpha(opacity=50);*/
+    /*opacity: 0.5;*/
+/*}*/
+
+
+/*.clearfix:after {*/
+   /*content: ".";*/
+   /*visibility: hidden;*/
+   /*display: block;*/
+   /*height: 0;*/
+   /*clear: both;*/
+/*}*/

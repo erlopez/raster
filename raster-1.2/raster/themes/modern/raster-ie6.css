@@ -1,0 +1,418 @@
+/******************************************************************************
+ * This file is part of the Raster UI Library.
+ * http://www.lopezworks.info/raster
+ *
+ * Copyright (C) 2010 Edwin R. Lopez
+ *
+ * This source code is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation LGPL v2.1
+ * (http://www.gnu.org/licenses/).
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301  USA.
+ *****************************************************************************/
+
+
+/*
+ *  Overwrite standard css and make IE6 behave correctly.
+ */
+
+
+/*************************************************************************************
+  List
+ *************************************************************************************/
+div.rasterList  {
+    width: expression(this.parentNode.clientWidth-2);
+    height: expression(this.parentNode.clientHeight-2);
+}
+div.rasterListQuirks  {
+    width: 100%;
+    height: 100%;
+}
+
+div.rasterListContent {
+    width: expression(this.parentNode.clientWidth);
+    height: expression(this.parentNode.clientHeight);
+}
+div.rasterListContentTable
+{
+    height: expression(this.parentNode.clientHeight-20);
+}
+
+/* table */
+div.rasterTableListHdrBox {
+    width: expression(this.parentNode.clientWidth-17);
+}
+div.rasterListQuirks div.rasterTableListHdrBox {
+    width: expression(this.parentNode.clientWidth);
+}
+
+/* list */
+div.rasterListItem a.rasterListItemSelected span.rasterBkleft,
+div.rasterListItem a.rasterListItemSelected span.rasterBkright {
+    width: expression( this.parentNode.clientWidth-5);
+    background-image: url(images/_bg-ie6.png)
+}
+
+div.rasterListItem a.rasterListItemSelected span.rasterBkright {   /*Fix css right:0 & bottom:0 1px misaligment*/
+    left:  expression(this.parentNode.offsetWidth - this.offsetWidth );
+}
+
+/* grid */
+span.rasterGridListItem  a {
+    padding: 1px 5px 4px 5px;
+}
+
+span.rasterGridListItem a span.rasterBktop,
+span.rasterGridListItem a span.rasterBkbottom {
+    display:none;
+}
+
+span.rasterGridListItem a.rasterListItemSelected {
+    padding: 0 4px 3px 4px;
+    border: 1px solid #99ccff;
+    background: #E7F4F9 url(images/_bgv.png) no-repeat -75px 0;
+}
+
+span.rasterGridListItem a span.rasterListItemTxt {
+    height: expression( this.scrollHeight > 40 ? "40px" : "auto" );
+}
+
+/* thumbs */
+span.rasterThumbListItem a span.rasterListItemTxt {
+    margin-bottom: 1px;
+    height: expression( this.scrollHeight > 40 ? "40px" : "auto" );
+}
+
+span.rasterListItemThumb span.rasterSprite {
+    margin-top: expression( ( this.parentNode.clientHeight-this.offsetHeight) / 2);
+}
+
+span.rasterThumbListItem a.rasterListItemSelected {
+    border: 1px dotted #99ccff;
+    background: #E7F4F9;
+}
+
+
+
+/*************************************************************************************
+  Tree
+ *************************************************************************************/
+div.rasterTree  {
+    width: expression(this.parentNode.clientWidth-2);
+    height: expression(this.parentNode.clientHeight-2);
+}
+div.rasterTreeQuirks  {
+    width: 100%;
+    height: 100%;
+}
+
+div.rasterTreeItemLabel a.rasterTreeItemSelected span.rasterBkleft,
+div.rasterTreeItemLabel a.rasterTreeItemSelected span.rasterBkright {
+    width: expression( this.parentNode.clientWidth-5);
+    background-image: url(images/_bg-ie6.png)
+}
+
+div.rasterTreeItemLabel a.rasterTreeItemSelected span.rasterBkright {   /*Fix css right:0 & bottom:0 1px misaligment*/
+    left:  expression(this.parentNode.offsetWidth - this.offsetWidth );
+}
+
+/*************************************************************************************
+  ShadowBox
+ *************************************************************************************/
+div.rasterShadowBox {
+        filter: Alpha(opacity=25);
+}
+
+div.rasterShadowBox div.rasterShadowBox0 {
+    top: 0;
+    left: 0;
+    width: expression(this.parentNode.clientWidth-20);
+    height: expression(this.parentNode.clientHeight-20);
+    background-image: url(images/_dropshadow-ie6.png);
+}
+
+div.rasterShadowBox div.rasterShadowBox1 {
+    top: expression(this.parentNode.offsetHeight - this.offsetHeight);
+    left: expression(this.parentNode.offsetWidth - this.offsetWidth);
+    width: expression(this.parentNode.clientWidth-20);
+    height: expression(this.parentNode.clientHeight-20);
+    background-image: url(images/_dropshadow-ie6.png);
+}
+
+div.rasterShadowBox div.rasterShadowBox2 {
+    left: expression(this.parentNode.offsetWidth - this.offsetWidth);
+    background-image: url(images/_dropshadow-ie6.png);
+}
+
+div.rasterShadowBox div.rasterShadowBox3 {
+    top: expression(this.parentNode.offsetHeight - this.offsetHeight);
+    background-image: url(images/_dropshadow-ie6.png);
+}
+
+/*************************************************************************************
+  Dialog
+ *************************************************************************************/
+div.rasterDialog div.rdCorner1 {
+    height:  expression( this.parentNode.clientHeight-10);
+    background-image: url( images/_chrome-ie6.png )
+}
+div.rasterDialog div.rdCorner2 {
+    left: expression(this.parentNode.clientWidth-this.clientWidth);
+    height:  expression( this.parentNode.clientHeight-10);
+    background-image: url( images/_chrome-ie6.png )
+}
+div.rasterDialog div.rdCorner3 {
+    top: expression(this.parentNode.clientHeight-this.clientHeight);
+    left: expression(this.parentNode.clientWidth-this.clientWidth);
+    height:  expression( this.parentNode.clientHeight-10);
+    background-image: url( images/_chrome-ie6.png )
+}
+div.rasterDialog div.rdCorner4 {
+    top: expression(this.parentNode.clientHeight-this.clientHeight);
+    height:  expression( this.parentNode.clientHeight-10);
+    background-image: url( images/_chrome-ie6.png )
+}
+ 
+div.rasterDialog div.rdContent {
+    width: expression(this.parentNode.clientWidth-14);  /*each side gap=6 + border*/
+    height: expression(this.parentNode.clientHeight-34); /*top gap=26, bttom gap=6 + border*/
+}
+div.rasterDialogQuirks div.rdContent
+{
+    width: expression(this.parentNode.clientWidth-12);  /*each side gap=6 */
+    height: expression(this.parentNode.clientHeight-32); /*top gap=26, bttom gap=6 */
+}
+
+div.rasterDialog div.rdContentNoBgBorder {
+    background: none;
+    border: none;
+    width: expression(this.parentNode.clientWidth-12);  /*each side gap=6 */
+    height: expression(this.parentNode.clientHeight-32); /*top gap=26, bttom gap=6 */
+}
+
+
+div.rasterDialog  div.rdClipBox {
+    width: expression(this.parentNode.clientWidth);
+    height: expression(this.parentNode.clientHeight);
+}
+
+/*************************************************************************************
+  Splitter
+ *************************************************************************************/
+div.rasterSplitterT,
+div.rasterSplitterB,
+div.rasterSplitterL,
+div.rasterSplitterR {
+    width: expression(this.parentNode.clientWidth);
+    height: expression(this.parentNode.clientHeight);
+}
+
+div.rasterSplitterT div.rasterSplitterPane1 {
+    width: 100%; /*expression(this.parentNode.clientWidth);*/
+}
+div.rasterSplitterB div.rasterSplitterPane1  {
+    top: expression(this.parentNode.clientHeight-this.clientHeight);
+    width: 100%; /*expression(this.parentNode.clientWidth);*/
+}
+div.rasterSplitterL div.rasterSplitterPane1  {
+    height: 100%; /*expression(this.parentNode.clientHeight);*/
+}
+div.rasterSplitterR div.rasterSplitterPane1 {
+    height: 100%; /*expression(this.parentNode.clientHeight);*/
+    left: expression(this.parentNode.clientWidth-this.clientWidth);
+}
+
+div.rasterSplitterPane2 {
+    height: expression(this.parentNode.clientHeight - parseInt(this.style.marginTop||0) - parseInt(this.style.marginBottom||0) );
+    width: expression(this.parentNode.clientWidth - parseInt(this.style.marginLeft||0) - parseInt(this.style.marginRight||0) );
+}
+
+/*************************************************************************************
+  InsertionLine
+ *************************************************************************************/
+
+div.rasterInsertionLineV div.b {
+    bottom: 0;
+    top:  expression(this.parentNode.clientHeight-6);
+}
+
+div.rasterInsertionLineH div.b {
+    left:  expression(this.parentNode.clientWidth-6);
+}
+
+
+/*************************************************************************************
+  BorderBox
+ *************************************************************************************/
+div.rasterBorderBox div.r {
+    left:  expression(this.parentNode.clientWidth-5);
+}
+
+div.rasterBorderBox div.b {
+    top: expression( this.parentNode.clientHeight-5);
+}
+
+
+/*************************************************************************************
+  TabBar
+ *************************************************************************************/
+div.rasterTabbar  {
+    background: none;
+}
+ 
+span.rasterTabbarItem a span.bkleft,
+span.rasterTabbarItem a span.bkright,
+span.rasterTabbarItem a.rasterTabItemSelected span.bkleft,
+span.rasterTabbarItem a.rasterTabItemSelected span.bkright {
+    background-image: url(images/_bg-ie6.png);
+    width: expression( this.parentNode.clientWidth-5);
+}
+
+span.rasterTabbarItem a span.bkright,
+span.rasterTabbarItem a.rasterTabItemSelected span.bkright {   /*Fix css right:0 & bottom:0 1px misaligment*/
+    left:  expression(this.parentNode.offsetWidth - this.offsetWidth );
+}
+
+/*************************************************************************************
+  Thin, Thick, XLarge Toolbars
+ *************************************************************************************/
+span.rasterThinbarItem a span.bkleft,
+span.rasterThinbarItem a span.bkright,
+span.rasterThickbarItem a span.bkleft,
+span.rasterThickbarItem a span.bkright,
+span.rasterXLbarItem a span.bkleft,
+span.rasterXLbarItem a span.bkright {
+    width: expression( this.parentNode.clientWidth-5);
+}
+
+span.rasterThinbarItem a span.bkright,
+span.rasterThickbarItem a span.bkright,
+span.rasterXLbarItem a span.bkright {   /*Fix css right:0 & bottom:0 1px misaligment*/
+    left:  expression(this.parentNode.offsetWidth - this.offsetWidth );
+}
+
+
+
+/*************************************************************************************
+  Popup Menu Item
+ *************************************************************************************/
+div.rasterPopupMenu {
+    position: absolute;
+    display: block;
+    z-index: 100;
+}
+
+div.rasterPopupMenu div.shade {
+    bottom: 0;
+    right: 0;
+    width: expression( this.parentNode.clientWidth-5);
+    height: expression( this.parentNode.clientHeight-5);
+}
+
+
+/*************************************************************************************
+  Command item normal - Popup Menu & Toolbar Items
+ *************************************************************************************/
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover,
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover,
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover
+/*,*/
+/*span.rasterPopupMenuItem a.rasterCommandItemNormal:hover */
+{ /*make ie6 :hover > span selectors work*/
+    background: transparent;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkright,
+span.rasterThinbarItem   a.rasterCommandItemNormal:hover span.bkleft,
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkright,
+span.rasterThickbarItem  a.rasterCommandItemNormal:hover span.bkleft,
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkright,
+span.rasterXLbarItem  a.rasterCommandItemNormal:hover span.bkleft
+/*,*/
+/*span.rasterPopupMenuItem a.rasterCommandItemNormal:hover  span.bkright,*/
+/*span.rasterPopupMenuItem a.rasterCommandItemNormal:hover  span.bkleft */
+{
+    background-image: url(images/_bg-ie6.png);
+}
+
+
+/*************************************************************************************
+  Command item 'down' - Popup Menu & Toolbar Items
+ *************************************************************************************/
+span.rasterThinbarItem   a.rasterCommandItemDown span.bkright,
+span.rasterThinbarItem   a.rasterCommandItemDown span.bkleft,
+span.rasterThickbarItem  a.rasterCommandItemDown span.bkright,
+span.rasterThickbarItem  a.rasterCommandItemDown span.bkleft,
+span.rasterXLbarItem  a.rasterCommandItemDown span.bkright,
+span.rasterXLbarItem  a.rasterCommandItemDown span.bkleft,
+span.rasterPopupMenuItem a.rasterCommandItemDownIE span.bkright,
+span.rasterPopupMenuItem a.rasterCommandItemDownIE span.bkleft {
+    background-image: url(images/_bg-ie6.png);
+}
+
+/*************************************************************************************
+  Command item 'selected' - Popup Menu & Toolbar Items
+ *************************************************************************************/
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover,
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover,
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover { /*make ie6 :hover > span selectors work*/
+    background: transparent;
+}
+
+span.rasterThinbarItem   a.rasterCommandItemSelected span.bkright ,
+span.rasterThinbarItem   a.rasterCommandItemSelected span.bkleft,
+span.rasterThickbarItem  a.rasterCommandItemSelected span.bkright,
+span.rasterThickbarItem  a.rasterCommandItemSelected span.bkleft,
+span.rasterXLbarItem  a.rasterCommandItemSelected span.bkright,
+span.rasterXLbarItem  a.rasterCommandItemSelected span.bkleft,
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover span.bkright,
+span.rasterThinbarItem   a.rasterCommandItemSelected:hover span.bkleft,
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover span.bkright,
+span.rasterThickbarItem  a.rasterCommandItemSelected:hover span.bkleft,
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover span.bkright,
+span.rasterXLbarItem  a.rasterCommandItemSelected:hover span.bkleft,
+span.rasterPopupMenuItem a.rasterCommandItemSelectedIE span.bkicon {
+    background-image: url(images/_bg-ie6.png);
+}
+
+/*************************************************************************************
+  Control
+ *************************************************************************************/
+iframe.rasterControlIframeBackdrop {
+    position: absolute;
+    top:0;
+    left:0;
+    width: expression(this.parentNode.clientWidth);
+    height: expression(this.parentNode.clientHeight);
+    overflow: hidden;
+    z-index: -2;
+    filter: Alpha(opacity=1);
+    /*border: 3px green solid;*/
+}
+
+
+/*************************************************************************************
+  Core styles
+ *************************************************************************************/
+.rasterFill {
+    top: 0;
+    left: 0;
+    height: expression( this.parentNode.clientHeight);  /*IE doesn't supports setting both top & bottom, left right simultaneously*/
+    width: expression( this.parentNode.clientWidth);
+}
+.rasterBorderFill,
+.rasterInsetFill {
+    top: 0;
+    left: 0;
+    height: expression( this.parentNode.clientHeight-2); /*2 = 1px boder x2*/
+    width: expression( this.parentNode.clientWidth-2)
+}

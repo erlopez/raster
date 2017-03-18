@@ -1,0 +1,217 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample Tree</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/***********************************************************
+ * Globals
+ ***********************************************************/
+var menu, tree, boot, users, printers; //initilized in main()
+var clickedItem; //keep trak of the last clicked item
+
+/***********************************************************
+ * Create context menu for users items
+ ***********************************************************/
+function setupMenu()
+{
+    var commands = RasterCommand.createGroup( changeUserRole );
+    commands.add( "toAdmin", ICONS16.USER_RED, null, "Set as Administrator" );
+    commands.add( "toUser", ICONS16.USER, null, "Set as User" );
+
+    menu = new RasterMenu();
+    menu.add( commands('toAdmin') );
+    menu.add( commands('toUser') );
+}
+
+/***********************************************************
+ * Handler for menu commands - Update the user role
+ * in 'clickedItem' according to the command received.
+ ***********************************************************/
+function changeUserRole( cmd )
+{
+    log( "command = " + cmd.id );
+    // Change item's icon to indicate the state of the user
+    switch ( cmd.id )
+    {
+       case "toAdmin": clickedItem.setIcon( ICONS16.USER_RED );
+                       break;
+       case "toUser":  clickedItem.setIcon( ICONS16.USER );
+                       break;
+    }/*switch*/
+}
+
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    //0. Tell Raster where the /raster folder is
+    Raster.config("../../raster");
+
+    //1. create popup menu for user items
+    setupMenu();
+
+    //2. Create tree, place it inside div#treeContainer
+    tree = new RasterTree( "treeContainer", ICONS16.COMPUTER, "My Computer");
+    tree.setSelectable(false);             //Make root item non-selectable, non-draggable
+    tree.setEventHandler( treeHandler );   //Specify event handler
+    tree.setDragDrop( true );          //Allow user to change the order of the items
+
+    //3. Add root items
+    boot = tree.add( ICONS16.DRIVE, "Boot Sequence" ).setSelectable(false).setHeader(true); //Mark these items as headers, non-selectable, non-draggable
+    users = tree.add( ICONS16.GROUP, "Local Users" ).setSelectable(false).setHeader(true);
+    printers = tree.add( ICONS16.PRINTER, "Printers" ).setSelectable(false).setHeader(true);
+
+    //4. Add items to roots
+    boot.add( ICONS16.DISK,     "Floppy Drive (A:)" );
+    boot.add( ICONS16.DRIVE,    "Local Disk (C:)" );
+    boot.add( ICONS16.DRIVE,    "Local Disk (D:)" );
+    boot.add( ICONS16.DRIVE_CD, "CD-ROM Drive (E:)" );
+    boot.add( ICONS16.SERVER,   "Remote Server" ).setEnabled(false); // disable this item
+
+    users.add( ICONS16.USER_RED,   "erosario" );
+    users.add( ICONS16.USER_RED,   "bbarrero" );
+    users.add( ICONS16.USER,       "isoto" );
+    users.add( ICONS16.USER,       "bjimenez" );
+    users.add( ICONS16.USER,       "ljimenez" );
+    users.add( ICONS16.USER,       "mfontanes" );
+
+    printers.add( ICONS16.PRINTER,  "HP Color LaserJet" );
+    printers.add( ICONS16.PRINTER,  "Canon Pro9500 II" );
+    printers.add( ICONS16.PRINTER,  "HP 6122 Inkjet" );
+
+    // expand all nodes in the tree
+    tree.expandAll();
+
+    //5. clear log console
+    document.getElementById( 'txt' ).value='';
+}
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+}
+
+
+/***********************************************************
+ * Event handler for tree control
+ ***********************************************************/
+function treeHandler( e )
+{
+    // Log event
+    if ( e.type!="over" )  //"moving" happen to often, so it won't be printed out
+        log ( "event='" + e.type + "', item='"+e.item + "', parent='"+e.item.parentItem +"'" );
+
+    // Process tree event
+    switch ( e.type )
+    {
+       case "click": clickedItem = e.item;  //Remember most recent clicked item
+                     break;
+
+
+       case "context": // If right-clicking an user, show context menu
+                       if ( e.item.parentItem==users )
+                       {
+                           //Remember most recent clicked item
+                           clickedItem = e.item;
+
+                           // if item is belong to the 'users' branch
+                           // show context menu
+                           if ( e.item.parentItem == users )
+                           {
+                               var mouse = Raster.getInputState( e.event );  //get mouse coords
+                               menu.showAt( mouse.x,  mouse.y, true );
+                           }
+                       }/*if*/
+                       break;
+
+       case "over":   // Allow dragged value to be dropped ONLY next to a sibling of the same parent
+                      if ( e.dragValue.parentItem == e.item.parentItem  )
+                      {
+                          // Do not allow tree to drop clickedItem "over" another item,
+                          // change "over" to "before"
+                          e.accept( e.position=="over" ? "before" : e.position );
+                      }
+                      else
+                          RasterMouse.setCursor( CURSORS.CANCEL );
+                      break;
+    }
+
+}
+
+/***********************************************************
+ * Prints list items in the current order
+ ***********************************************************/
+function printItems( )
+{
+    var items = tree.getItems();
+
+    for ( var i=0; i < items.length; i++ )
+       log( i+".  item='"+items[i].text + "', parent='"+items[i].parentItem.text+"', level=" + items[i].level );
+
+}
+
+</script>
+<style type="text/css">
+   body { background:#eee; color: #444; font-family: tahoma, sans-serif; font-size: 9pt }
+   textarea { font-size: 8pt }
+   li { padding-bottom: 10px }
+   #treeContainer {position: relative; height: 350px; width: 200px; border:1px solid #ccc }
+   #logContainer, #treeContainer{ display:inline-block; vertical-align: top; margin-right: 5px}
+</style>
+</head>
+<body>
+    <h3>Demonstrates simple use of the tree control:</h3>
+    <ul>
+        <li>You can drag and reorganize "boot drives", "users", and "printers".</li>
+        <li>You can right-click "users" to open a context menu and change the user's role.</li>
+        <li>Press <input type="button" value="Print items" onclick="printItems();"> to show their new item order.</li>
+    </ul>
+    
+    <!-- container for the list control, must be relatibe or absolute,
+         list control will take all available space inside this container -->
+    <div id="treeContainer"></div>
+
+    <!-- textbox used for logging -->
+    <div id="logContainer">
+        Log Output: <br>
+        <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+        <br>
+        <textarea id="txt" rows="14" cols="70"></textarea>
+
+    </div>
+
+</body>
+</html>

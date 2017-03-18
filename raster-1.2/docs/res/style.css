@@ -1,0 +1,88 @@
+    body, html { margin: 0; border :0; height:100%;  }
+    body { background: #EDECEC; text-align: center; color: #888;}
+
+    body, table { font-family: Tahoma, sans-serif; font-size: 9pt; }
+
+    /*PAGE ELEMENTS*/
+    #centerColumn { display: inline-block; width:725px;
+                    text-align: left; border-bottom: 2px dotted #888;
+                    margin-bottom: 5px; padding-bottom: 30px;}
+    #topbar { position: absolute; top:0; left:0; width:100%; height: 90px;
+              background: #515250; border-bottom: 3px solid #C3C7A2; z-index:-1; }
+
+    #titles { position: relative; height: 120px;  }
+    #logo { position:absolute; top:20px; left:-3px; }
+    #logolink { position:absolute; display:block;
+                top:22px; left:32px; width:56px; height: 12px; }
+
+    #content { float:left; width:500px;
+               vertical-align: top; 
+               overflow-x:hidden; border: 0 dashed #888;}
+    #index { float:left; width:180px;
+             vertical-align: top; border: 0 dashed #888;
+             padding-left: 25px}
+    .copy { font-size: 8pt; color: #aaa;  padding-bottom: 15px;}
+    .subindex { border-top: 2px dotted #888; margin: 5px 0;
+                padding: 5px 0; }
+
+ 
+    a.methodLink, a.propLink, a.brickLink, a.docLink, a.pageLink
+        { display: block; color: #444; padding: 3px 0 3px 23px ; text-decoration: none }
+    a.methodLink:hover, a.propLink:hover, a.brickLink:hover, a.docLink:hover, a.pageLink:hover
+        { color: #669900;   text-decoration: underline}
+    a.methodLink { margin-left: 16px; background: url(cog.gif) no-repeat 3px center}
+    a.propLink { margin-left: 16px; background: url(tag_blue.gif) no-repeat 3px center}
+    a.docLink { background: url(page.gif) no-repeat 3px center}
+    a.pageLink { background: url(page.gif) no-repeat 3px center}
+    a.brickLink {  font-weight: bold; background: url(brick.gif) no-repeat 3px center}
+
+    /*DOC BOXES*/
+   .docEntry { color: #444; line-height: 20px; }
+
+   table { border-collapse: collapse;   }
+   th { font-size: 8pt; color: #555; text-align:left; background: #d9d9d0;  padding: 4px; line-height: normal; }
+   td { border-top: 1px dotted #cccccc; padding: 4px }
+   td ul { padding-left: 16px; }
+    
+   .-param {color: #990033; }
+   .-method {color: #cc6600; }
+
+   h2 { margin: 0 0 20px; color: #000; font-size: 14pt; font-family: sans-serif; font-weight: normal;}
+   h3 { margin: 30px 0 0; padding-bottom: 3px; border-bottom: 1px solid #cccccc;
+                  font-size: 14pt; font-family: sans-serif; font-weight: normal; }
+   pre { font-size: 9pt;  background: #EEE; padding: 10px; margin:15px}
+   .names { vertical-align: top; font-weight: normal;    }
+   .types { vertical-align: top;  font-family: monospace }
+   .optionals { vertical-align: top; font-style: italic;}
+   a { color: #0066cc; text-decoration: none;  font-weight: normal;}
+   a:hover { text-decoration: underline}
+
+   .propEntry table { margin: 0 0 10px 10px }
+   .propEntry td { border-top: 0; border-bottom: 1px dotted #cccccc; padding: 1px}
+   .propEntry h3 { margin: 10px 0 5px}
+
+   tt { display:block;
+                  padding-left: 120px;
+                  padding-bottom: 3px;
+                  margin-bottom: 5px;
+                  position: relative;
+                  border-bottom: 2px dotted #ccc;
+                  font-family: Tahoma, sans-serif;  }
+   tt q,
+   tt i,
+   tt strong { position: absolute; left:0; top:0; display: block; width:120px;  }
+   tt q {font-family: monospace;}
+    
+    /*CODE STYLING*/
+    .ctag {color: #800}
+    .cattr {color: #00C}
+    .ccomment {color: #080}
+    .creserved {color: #00C; font-weight:bold }
+    .cstring {color: #F00}
+    .cprop {color: #808}
+    .cvalue {color: #088}
+    pre.ccode,
+    pre.cobj { line-height: 16px; font-size: 8pt; padding: 0 0 0 40px;
+               margin: 20px 0; overflow-x: hidden; border: 1px solid #ccc;
+               background: #EEE url(codebk.gif) repeat-y }
+    pre.cobj { background-image: url(objbk.gif) }

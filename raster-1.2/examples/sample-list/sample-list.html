@@ -1,0 +1,151 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample List</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/***********************************************************
+ * Globals
+ ***********************************************************/
+var list; //initilized in main()
+
+
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    //0. Tell Raster where the /raster folder is
+    Raster.config("../../raster");
+
+    //1. Create list, place it inside div#listContainer
+    list = new RasterList( "listContainer", "list", 80 );
+    list.setEventHandler( listHandler );
+    list.setDragDrop( true ); //allow user to change the order of the items
+    list.setMultiSelect( true ); //allow user to select multiple items
+
+
+    //2. Add items to the list; 'false'=defer paint for later
+    list.add( ICONS16.APPLICATION, ICONS32.WINDOWS, "thumbnails/img0.jpg", "Item 1", "VALUE1", false );
+    list.add( ICONS16.CALENDAR, ICONS32.CALENDAR, "thumbnails/img1.jpg", "Item 2", "VALUE2", false );
+    list.add( ICONS16.FOLDER, ICONS32.FOLDER, "thumbnails/img2.jpg", "Item 3", "VALUE3", false );
+    list.add( ICONS16.APPLICATION_OSX_TERMINAL, ICONS32.TERMINAL, "thumbnails/img3.jpg", "Item 4", "VALUE4", false );
+    list.add( ICONS16.PAGE, ICONS32.DOCUMENT, "thumbnails/img4.jpg", "Item 5", "VALUE5", false );
+    list.add( ICONS16.ATTACH, ICONS32.MAIL_ATTACHMENT, "thumbnails/img5.jpg", "Item 6", "VALUE6", false );
+    list.add( ICONS16.CD, ICONS32.CD, "thumbnails/img6.jpg", "Item 7", "VALUE7", false );
+    list.add( ICONS16.CAMERA, ICONS32.CAMERA_PHOTO, "thumbnails/img7.jpg", "Item 8", "VALUE8", false );
+    list.add( ICONS16.COMPUTER, ICONS32.COMPUTER, "thumbnails/img8.jpg", "Item 9", "VALUE9", false );
+    list.add( ICONS16.PALETTE, ICONS32.GRAPHICS, "thumbnails/img9.jpg", "Item 10", "VALUE10", false );
+
+    //3. Show changes in the list
+    list.paint();
+
+    //4. clear log console
+    document.getElementById( 'txt' ).value='';
+}
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+}
+
+/***********************************************************
+ * Event handler for list control
+ ***********************************************************/
+function listHandler( e )
+{
+    if ( e.type!="over" )
+    {
+        var txt = "event type='" + e.type + "'";
+
+        //Note not all event type has the 'item' property set
+        if ( e.item!=null )
+            txt += ", item.text='"+e.item.text + "', item.value='"+e.item.value + "'";
+
+        log( txt );
+    }
+    //"over": accept drag and drop of local list items
+    else if ( e.dragValue.IID_LISTITEM && e.dragValue.listControl==e.list )
+    {
+       e.accept( e.position=="over" ? "before" : e.position );
+    }
+
+}
+
+/***********************************************************
+ * Prints list items in the current order
+ ***********************************************************/
+function printItems( )
+{
+    var items = list.getItems();
+
+    for ( var i=0; i < items.length; i++ )
+       log( i+".  item.text='"+items[i].text + "', item.value='"+items[i].value +"'");
+
+}
+
+</script>
+<style type="text/css">
+   body { background:#eee; color: #444; font-family: tahoma, serif; font-size: 9pt }
+</style>
+</head>
+<body>
+    <h3>Demonstrates simple use of the list, grid, and thumbnail list-types:</h3>
+
+    <!-- buttons -->
+    Show items as:
+    <input type="button" value="list"   onclick="window.list.changeDisplayMode('list')"> <!-- "window." prefix needed in opera -->
+    <input type="button" value="grid"   onclick="window.list.changeDisplayMode('grid')">
+    <input type="button" value="thumbs" onclick="window.list.changeDisplayMode('thumbs')">
+    <br>
+    You can drag items to change thier order. Press
+    <input type="button" value="Print items" onclick="printItems();">
+      to show the new order.
+    <br>
+    Use SHIFT and CTRL keys to select multiple items.
+    <br>
+    <br>
+
+    <!-- container for the list control, must be relatibe or absolute,
+         list control will take all available space inside this container -->
+    <div id="listContainer"
+         style="position: relative; height: 250px; width: 600px; border:1px solid #ccc"></div>
+
+    <!-- textbox used for logging -->
+    Output:<br>
+    <textarea id="txt" rows="10" cols="72"></textarea>
+    <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+
+</body>
+</html>

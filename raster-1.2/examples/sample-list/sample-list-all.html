@@ -1,0 +1,481 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample List</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/****************************************************************
+ * Global vars & random data generator functions
+ ****************************************************************/
+var list;
+var n = 0;
+var names = ["Emuel", "Mirelsa", "Landy", "Mora", "Irma", "Barbara", "Edwin", "Jill", "Gayle", "Pete", "Isabel", "James" ];
+var lasts = ["Barrero", "Rosario", "Fontanes", "Jimenez", "Lopez", "Soto", "Morales", "Figueroa", "Vazquez", "Smith", "Hill", "Sprueill", "Fabre", "O'Brien" ];
+var depts = ["IT", "Science and Engineering", "Arts", "Administration", "Finance", "Transportation", "Mail", "Packaging", "HR", "Security"];
+var cities = ["Rochester", "Lakewood", "Denver", "Webster", "Henrrieta", "Victor", "Golden", "Colorado Springs", "Westminster", "San Juan", "Littleton", "Castle Rock", "Highlands Ranch", "Arvada", "Naguabo", "Boulder", "Evergreen", "Aurora", "Mayaguez", "Wheat Ridge", "Vail"];
+var types = [ "pack", 'key', 'bug', 'book', 'cd', 'folder', 'fav', 'DB', 'date' ];
+var icos = [ ICONS16.PACKAGE, ICONS16.APPLICATION_KEY, ICONS16.BUG, ICONS16.BOOK, ICONS16.CD, ICONS16.FOLDER, ICONS16.HEART, ICONS16.DATABASE, ICONS16.DATE ];
+var ico32s = [ ICONS32.AUDIO, ICONS32.BATTERY, ICONS32.DIALOG_TIP , ICONS32.ACCESSORIES, ICONS32.CD, ICONS32.FOLDER, ICONS32.GRAPHICS, ICONS32.MAIL, ICONS32.DOCUMENT ];
+
+function num( len ) { var s = "00000000000" + Math.round( Math.random()*10000000 ); return s.substring( s.length-len ); }
+function name() { return names[n++ % names.length] + " " +  lasts[ Math.round( Math.random()*100 ) % lasts.length ]; }
+function dept() { return depts[ Math.round( Math.random()*100 ) % depts.length ]; }
+function city() { return cities[ Math.round( Math.random()*100 ) % cities.length ]; }
+function id() { return n+1000; }
+function age() { return Math.round( Math.random()*70 ) + 10; }
+function date() { return new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )); }
+function type() { return types[ n % types.length ]; }
+function ico() { return icos[ n % icos.length ]; }
+function ico32() { return  Math.random()*10 > 5 ? null : ico32s[ n % ico32s.length ]; }
+function thumb() { return Math.random()*10 > 5 ? null : "thumbnails/img"+ (Math.round( Math.random()*100 ) % 10) +".jpg"; }
+function phone() { return Math.random()*10 > 5 ? null : "("+num(3)+") "+num(3)+"-"+num(4); }
+function ssn() { return num(3)+"-"+num(2)+"-"+num(4); }
+
+
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    // Tell Raster where is the /raster dir
+    Raster.config("../../raster");
+
+    // Create list
+    list = new RasterList(null, "table", 100 );
+    list.setEventHandler( listHandler );
+    list.setDragDrop( true ); //allow user to change the order of the items
+    list.setMultiSelect( true ); //allow user to select multiple items
+    list.setCustomizable( true ); //enable column move
+    list.setResizable( true ); //allow column resize
+    list.setSortable( true ); //enable sort
+
+    // Split screen and fill content areas
+    var splitV = new RasterSplitter( document.body, 'top', 280 );    // split body, set top panel to 280px
+    var splitH = splitV.splitRight(2, 300 );  //split bottom panel horz., set right side to 300px
+    splitV.setContent(1, "topContent" );      //top panel
+    splitH.setContent(2, list );              //bottom-Left, list control
+    splitH.setContent(1, "rightContent" );    //bottom-right, test cases
+
+
+    // Reset form elements
+    var el = document.getElementsByTagName("input");
+    for ( var i in el )
+        if ( el[i].checked===false ) el[i].checked = true;
+    document.getElementById( "spread" ).checked=false;
+    document.getElementById( "altRows" ).checked=false;
+    
+    // Add some list items, add columns
+    test("add");
+    list.addColumn( "ID", 60, 1 );
+    list.addColumn( "Name", 100, 0 );
+    list.addColumn( "Department", 100, 2);
+    list.addColumn( "Location", 80, 3);
+    list.addColumn( "Member Since", 100, 8 );
+}
+
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+//    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+//    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+    txt.value = s;
+}
+
+/***********************************************************
+ * Event handler for list control
+ ***********************************************************/
+function listHandler( e )
+{
+    if ( e.type!="over" )
+    {
+        log ( "event = " + e.toString() );
+    }
+    //"over": accept drag and drop of local list items
+    else if ( e.dragValue.IID_LISTITEM && e.dragValue.listControl==e.list )
+    {
+       e.accept( e.position=="over" ? "before" : e.position );
+    }
+
+
+}
+
+/****************************************************************
+ * Test function
+ * @param cmd string: ID of test-case to test
+ ****************************************************************/
+function test( cmd )
+{
+    log(cmd);
+    var i, data, sel, width, all;
+
+    switch( cmd )
+    {
+        case "add":
+                for ( i=0; i < 17; i++) {
+                    //           0       1     2       3         4      5       6         7         8
+                    //           name,   id,   dept,   location, age,   type,   account#  phone     since
+                    data = [ name(), id(), dept(), city(),   age(), type(), ssn(),    phone(),  date()  ];
+                    list.add( ico(), ico32(), thumb(), data, 0, false );
+                }/*for*/
+
+                list.paint();
+                break;
+
+        case "add1":
+                    //           0       1     2       3         4      5       6         7         8
+                    //           name,   id,   dept,   location, age,   type,   account#  phone     since
+                    data = [ "D'" + name(), id(), dept(), city(),   age(), type(), ssn(),    phone(),  date()  ];
+                    list.add( ico(), ico32(), thumb(), data, 0, true );
+
+                break;
+
+        case "+col":
+                sel = document.getElementById( "addcol" );
+                width = document.getElementById( "widthcol" ).value * 1;
+                var idx = document.getElementById( "wherecol" ).value || null;
+                list.addColumn( sel.options[sel.selectedIndex].text, width, sel.value*1, idx, true );
+                sel.selectedIndex = 0;
+                break;
+
+        case "szcol":
+                sel = document.getElementById( "szcol" );
+                width = document.getElementById( "widthcol2" ).value * 1;
+                list.setColWidth( sel.value * 1, width );
+                sel.selectedIndex = 0;
+                break;
+
+        case "ena":
+                all = list.getItems();
+                if ( all.length > 2)
+                   all[1].setEnabled( true );
+                break;
+        case "dis":
+                all = list.getItems();
+                if ( all.length > 2)
+                   all[1].setEnabled( false );
+                break;
+
+    }/*switch*/
+
+    // if no selection leave..
+    if ( !list.hasSelection() )
+        return;
+
+
+    //test cases that require a selection
+    switch( cmd )
+    {
+        case "scroll":
+                list.getSelectedItem().scrollIntoView();
+                break;
+
+        case "rmSel":
+                list.removeSelectedItems();
+                break;
+
+        case "rmAll":
+                list.removeAll();
+                break;
+
+        case "moveup":
+                list.getSelectedItem().moveUp();
+                break;
+        case "movedn":
+                list.getSelectedItem().moveDown();
+                break;
+        case "move2nd":
+                if ( list.size() > 2)
+                   list.moveItems( list.getSelectedItem(), 1 );
+                break;
+
+
+        case "16img":
+                list.getSelectedItem().setIcon("warning.gif");
+                break;
+        case "16ico":
+                list.getSelectedItem().setIcon(ICONS16.DATE);
+                break;
+        case "16nul":
+                list.getSelectedItem().setIcon(null);
+                break;
+
+
+        case "32img":
+                list.getSelectedItem().setIcon32("weather.png");
+                break;
+        case "32ico":
+                list.getSelectedItem().setIcon32(ICONS32.ACCESSORIES);
+                break;
+        case "32nul":
+                list.getSelectedItem().setIcon32(null);
+                break;
+
+        case "timg":
+                list.getSelectedItem().setThumbnail("thumbnails/img0.jpg");
+                break;
+        case "tnul":
+                list.getSelectedItem().setThumbnail(null);
+                break;
+
+
+        case "data0":
+                list.getSelectedItem().setText( document.getElementById( 'dataval' ).value );
+                break;
+        case "data1":
+                list.getSelectedItem().setData(1, document.getElementById( 'dataval' ).value );
+                break;
+        case "data2":
+                list.getSelectedItem().setData(2, document.getElementById( 'dataval' ).value );
+                break;
+        case "data3":
+                list.getSelectedItem().setData(3, document.getElementById( 'dataval' ).value );
+                break;
+
+
+    }/*switch*/
+
+
+}
+
+</script>
+<style type="text/css">
+   html, body { height:100%; border:0; margin:0; overflow:hidden;  background: #dad9cd;
+                font-family: Tahoma,serif; font-size: 8pt;}
+   #rightContent, #topContent { line-height: 19px; background: #fff }
+   #rightContent select, 
+   #rightContent input { border: 1px solid #555; font-family: Tahoma,serif; font-size: 8pt;}
+   hr { border:1px dotted #ccc; }
+   textarea { font-size: 8pt}
+</style>
+</head>
+<body>
+
+<!-- hidden panel, containing containers to be repositioned later -->
+<div style="display: none;">
+
+    <!-- container to be placed on the right bottom -->
+    <div id="topContent" class="rasterFill">
+        <h3>Demonstrates most functions of the list control:</h3>
+
+        You can reorganize and resize the columns, drag items to change thier order,
+        and use SHIFT and CTRL keys to select multiple items.
+        <br>
+
+        <!-- textbox used for logging -->
+        Output:<br>
+        <textarea id="txt" rows="11" cols="72"></textarea>
+        <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+    </div>
+
+    <!-- container to be placed on the right bottom -->
+    <div id="rightContent" style="overflow-y:scroll;"  class="rasterFill">
+      <div style="padding:5px">
+        <b>Test cases:</b>
+        <ul>
+            <li>Change display mode:
+                <br> &nbsp;
+                <a href="javascript: list.changeDisplayMode('list'); void(0);">list</a>
+                | <a href="javascript: list.changeDisplayMode('grid'); void(0);">grid</a>
+                | <a href="javascript: list.changeDisplayMode('table',100); void(0);">table</a>
+                | thumb:
+                <a href="javascript: list.changeDisplayMode('thumbs',80); void(0);">80px</a>
+                <a href="javascript: list.changeDisplayMode('thumbs',100); void(0);">100px</a>
+            <hr>
+            </li>
+
+            <li><b>Options:</b>
+                <br><input type="checkbox" onclick="window.list.setMultiSelect(this.checked);"> Allow multi-select
+                <br><input type="checkbox" onclick="window.list.setOrderable(this.checked);"> Allow item reordering
+                <br><input type="checkbox" onclick="window.list.setCustomizable(this.checked);"> Allow column move
+                <br><input type="checkbox" onclick="window.list.setSortable(this.checked);"> Allow column sort
+                <br><input type="checkbox" onclick="window.list.setResizable(this.checked);"> Allow column resizing
+                <br><input type="checkbox" onclick="window.list.setAltRows(this.checked);" id="altRows"> Enable table row coloring
+                <br><input type="checkbox" onclick="window.list.setSpread(this.checked);" id="spread"> Spread columns in available width
+                <hr>
+            </li>
+
+            <li><a href="javascript: test('add');">Add random items</a></li>
+            <li><a href="javascript: test('add1');">Add one random item</a> <hr></li>
+
+            <li><a href="javascript: test('moveup');">Move selected item UP (most recent)</a></li>
+            <li><a href="javascript: test('movedn');">Move selected item DN (most recent)</a></li>
+            <li><a href="javascript: test('move2nd');">Move selected item to 2 (most recent)</a></li>
+            <li><a href="javascript: test('scroll');">Scroll to selected item (most recent)</a><hr></li>
+
+            <li>Enable/Disable:
+                <br>&nbsp; <a href="javascript: test('ena');">enable 2nd</a>
+                         | <a href="javascript: test('dis');">disable 2nd</a>
+                <hr>
+            </li>
+            <li>Set selected item icon (most recent):
+                <br>&nbsp; Icon 16: <a href="javascript: test('16img');">url</a>
+                                    | <a href="javascript: test('16ico');">sprite</a>
+                                    | <a href="javascript: test('16nul');">null</a>
+                <br>&nbsp; Icon 32: <a href="javascript: test('32img');">url</a>
+                                    | <a href="javascript: test('32ico');">sprite</a>
+                                    | <a href="javascript: test('32nul');">null</a>
+                <br>&nbsp; Thumb:&nbsp; <a href="javascript: test('timg');">url</a>
+                                    | <a href="javascript: test('tnul');">null</a>
+                <hr>
+            </li>
+
+            <li><b>Change selected item data: </b>
+                <br>&nbsp; Put <input type="text" size="15" id="dataval" value="The Data">:
+                <br>&nbsp; in data index:
+                <a href="javascript: test('data0')">Name</a> |
+                <a href="javascript: test('data1')">id</a> |
+                <a href="javascript: test('data2')">dept</a> |
+                <a href="javascript: test('data3')">loc.</a>
+                <hr>
+                <!--//           0       1     2       3         4      5       6         7         8-->
+                <!--//           name,   id,   dept,   location, age,   type,   account#  phone     since-->
+            </li>
+
+            <li><a href="javascript: test('rmSel');">Remove selected items</a></li>
+            <li><a href="javascript: test('rmAll');">Remove ALL items</a></li>
+
+            <li>Select all/clear:
+                  <a href="javascript: list.selectAll(); void(0);">Select All</a>
+                | <a href="javascript: list.clear(); void(0);">Clear</a>
+                <hr>
+            </li>
+            <li>Show icons in table mode:
+                  <a href="javascript: list.showTableIcons(true); void(0);">Yes</a>
+                | <a href="javascript: list.showTableIcons(false); void(0);">No</a>
+                <hr>
+            </li>
+            <li>Spread columns:
+                  <a href="javascript: list.spread(); void(0);">spread once</a>
+                <hr>
+            </li>
+
+            <li><b>Add column:</b>
+                <br>&nbsp; at index:
+                <select id="wherecol">
+                    <option value="">(at end)</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+                <br>&nbsp; with width:
+                <select id="widthcol">
+                    <option value="200">200</option>
+                    <option value="150">150</option>
+                    <option value="80">80</option>
+                </select>
+                <br>&nbsp; using data:
+                <select id="addcol" onchange="test('+col')">
+                    <option value="">(Select data)</option>
+                    <option value="0">Name</option>
+                    <option value="1">Id</option>
+                    <option value="2">Department</option>
+                    <option value="3">Location</option>
+                    <option value="4">Age</option>
+                    <option value="5">Type</option>
+                    <option value="6">Account No.</option>
+                    <option value="7">Phone</option>
+                    <option value="8">Member Since</option>
+                </select>
+            </li>
+
+            <li><b>Remove column:</b>
+                <br>&nbsp; at index:
+                <a href="javascript: list.removeColumn(0); void(0);">0</a> |
+                <a href="javascript: list.removeColumn(1); void(0);">1</a> |
+                <a href="javascript: list.removeColumn(2); void(0);">2</a> |
+                <a href="javascript: list.removeColumn(3); void(0);">3</a> |
+                <a href="javascript: list.removeColumn(4); void(0);">4</a> |
+                <a href="javascript: list.removeColumn(5); void(0);">5</a>
+            </li>
+
+            <li><b>Resize column:</b>
+                <br>&nbsp; select width:
+                <select id="widthcol2">
+                    <option value="203">203</option>
+                    <option value="151">151</option>
+                    <option value="77">77</option>
+                    <option value="20">20</option>
+                </select>
+                <br>&nbsp; Apply to:
+                <select id="szcol"  onchange="test('szcol')">
+                    <option value="">(Select Column)</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </li>
+
+            <li><b>Rename column:</b>
+                <br>&nbsp; Apply <input type="text" size="15" id="colname" value="TheColumn">:
+                <br>&nbsp; to col header:
+                <a href="javascript: list.renameColumn(0, document.getElementById( 'colname' ).value ); void(0);">0</a> |
+                <a href="javascript: list.renameColumn(1, document.getElementById( 'colname' ).value ); void(0);">1</a> |
+                <a href="javascript: list.renameColumn(2, document.getElementById( 'colname' ).value ); void(0);">2</a> |
+                <a href="javascript: list.renameColumn(3, document.getElementById( 'colname' ).value ); void(0);">3</a> |
+                <a href="javascript: list.renameColumn(4, document.getElementById( 'colname' ).value ); void(0);">4</a> |
+                <a href="javascript: list.renameColumn(5, document.getElementById( 'colname' ).value ); void(0);">5</a>
+                <hr>
+            </li>
+
+
+            <li><a href="javascript: list.setEventHandler( listHandler ); void(0);">Add event handler</a></li>
+            <li><a href="javascript: list.setEventHandler( null ); void(0);">Remove event handler</a></li>
+
+        </ul>
+      </div>
+    </div>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

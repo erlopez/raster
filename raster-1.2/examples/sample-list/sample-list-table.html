@@ -1,0 +1,167 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample List</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/***********************************************************
+ * Globals
+ ***********************************************************/
+var list; //initilized in main()
+
+/***********************************************************
+ * Sample data to input in the list. Ideally this data
+ * will come from a AJAX connection.
+ ***********************************************************/
+var data = [
+        //id,   name, department, rank,  , member since
+        [ 1000, "Jack Bauer", "CTU", 99, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 2812, "Chloe O'Brian", "CTU", 95, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 3822, "Allison Taylor", "The White House", null, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 1188, "Bill Buchanan", "CTU", 95, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 8822, "Renee Walker", "FBI", 35, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 6671, "Tony Almeida", "CTU", 55, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 3617, "Nina Myers", "Moles", 91, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 9622, "Sherry Palmer ", null, 114, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 8011, "Charles Logan", "Retreat", null, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ],
+        [ 7115, "Martha Logan", "Retreat", 8, new Date( (new Date()).getTime() - Math.round( Math.random()*700000000000 )) ]
+        ];
+
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    //0. Tell Raster where the /raster folder is
+    Raster.config("../../raster");
+
+    //1. Create list, place it inside div#listContainer
+    list = new RasterList( "listContainer", "table" );
+    list.setEventHandler( listHandler );
+    list.setDragDrop( true ); //allow user to change the order of the items
+    list.setMultiSelect( true ); //allow user to select multiple items
+    list.setCustomizable( true ); //enable column move
+    list.setResizable( true ); //allow column resize
+    list.setSortable( true ); //enable sort
+
+    //2. Set columns
+    list.addColumn( "User ID",       15, 0 );
+    list.addColumn( "Employee Name", 30, 1 );
+    list.addColumn( "Department",    25, 2 );
+    list.addColumn( "Ranking",       10, 3 );
+    list.addColumn( "Member Since",  20, 4 );
+    list.spread();  //Make columns use all horizontal space
+
+    //3. Add items to the list; 'false'=defer paint for later - very important in slow IE!
+    for ( var i=0; i < data.length; i++ )
+        list.add( ICONS16.USER_GREEN, null, null, data[i], "VALUE"+i, false );
+
+    //4. Show changes in the list
+    list.paint();
+
+    //5. clear log console
+    document.getElementById( 'txt' ).value='';
+}
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+}
+
+/***********************************************************
+ * Event handler for list control
+ ***********************************************************/
+function listHandler( e )
+{
+    if ( e.type!="over" )
+    {
+        var txt = "event type='" + e.type + "'";
+
+        //Note not all event type has the 'item' property set
+        if ( e.item!=null )
+            txt += ", item.text='"+e.item.text + "', item.value='"+e.item.value + "'";
+
+        log( txt );
+    }
+    //"over": accept drag and drop of local list items
+    else if ( e.dragValue.IID_LISTITEM && e.dragValue.listControl==e.list )
+    {
+       e.accept( e.position=="over" ? "before" : e.position );
+    }
+}
+
+/***********************************************************
+ * Prints list items in the current order
+ ***********************************************************/
+function printItems( )
+{
+    var items = list.getItems();
+
+    for ( var i=0; i < items.length; i++ )
+       log( i+".  item.text="+items[i].data[1] + ", item.value="+items[i].value );
+
+}
+
+</script>
+<style type="text/css">
+   body { background:#eee; color: #444; font-family: tahoma, serif; font-size: 9pt }
+</style>
+</head>
+<body>
+    <h3>Demonstrates simple use of the table list:</h3>
+
+    <!-- buttons -->
+    You can reorganize and resize the columns.
+    <br>
+    You can drag items to change thier order. Press
+      <input type="button" value="Print items" onclick="printItems()">
+      to show their new order.
+    <br>
+    Use SHIFT and CTRL keys to select multiple items.
+    <br>
+    <br>
+
+    <!-- container for the list control, must be relatibe or absolute,
+         list control will take all available space inside this container -->
+    <div id="listContainer"
+         style="position: relative; height: 250px; width: 600px; border:1px solid #ccc"></div>
+
+    <!-- textbox used for logging -->
+    Output:<br>
+    <textarea id="txt" rows="10" cols="72"></textarea>
+    <br>
+    <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+
+</body>
+</html>

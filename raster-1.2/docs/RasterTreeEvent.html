@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>RasterTreeEvent.RasterTreeEvent - Raster v1.2 API Reference</title>
+    <link rel="stylesheet" href="res/style.css" />
+    <style type="text/css">
+        #idRasterTreeEvent { background-color: #D1D9DB}
+    </style>
+<!--[if lte IE 6]><style type="text/css">
+   .docEntry tt q,
+   .docEntry tt i,
+   .docEntry tt strong { left:-120px; }
+</style><![endif]-->
+</head>
+<body>
+    <div id="topbar"></div>
+    <div id="centerColumn">
+        <div id="titles">
+            <img src="res/logo.gif" id="logo" width="270" height="49">
+            <a href="http://www.lopezworks.info" id="logolink" title="Visit www.lopezworks.info"></a>
+        </div>
+
+        <div id="content">
+
+
+  <div class="docEntry">
+    <h2>RasterTreeEvent</h2>
+
+Object passed to a tree event handler containing information about the event in
+progress. The object has the following properties:
+<pre class='cobj'>event       The associated DOM event object.
+type        Indicates the type of event.
+tree        The tree control that issued the event.
+item        The tree item that was clicked.
+dragValue   The value being dragged/dropped over the control.
+position    Indicates where dragged value is about
+            to be dropped.</pre>
+Not all object properties apply to all event types. When a property is not relevant
+to a given event type, its value is set to <code>null</code> (<i>Tip:</i> do an <code>alert()</code>
+on the event object to see which properties are set for any particular event type).
+<br><br>
+The <code>type</code> property indicates what the event does. The following table
+lists its possible values:
+<br><br>
+<b><tt><strong>Event Type</strong> Description </tt></b>
+<tt><q>collapse</q>     A tree item was collapsed. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item being collapsed. Cancelling this event
+will prevent the tree item from collapsing.</tt>
+<tt><q>expand</q>       A tree item was expanded. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item being expanded. Cancelling this event
+will prevent the tree item from expanding.</tt>
+<tt><q>click</q>        A tree item was clicked. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item being clicked. Cancelling this event
+will prevent the tree current selection from changing.</tt>
+<tt><q>dblclick</q>     A tree item was double-clicked. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item being clicked. Note the "click" event
+will fire twice before "dblclick" fires. This is normal.</tt>
+<tt><q>context</q>      A tree item was right-clicked. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item being clicked. This might be used to
+open a context menu at the mouse position.</tt>
+<tt><q>beforedrag</q>   One or more tree items are about to be dragged. The
+<code><a href='RasterTreeEvent$item.html'>item</a></code> property points to the tree item about to be
+dragged. In case of a multiple selections, use the <code><a href='RasterTree$getSelectedItems.html'>RasterTree.getSelectedItems()</a></code>
+method to know which items are being dragged. Cancelling this event
+will prevent the drag operation from occurring.</tt>
+<tt><q>over</q>         A value is being dragged over a tree item. The
+<code><a href='RasterTreeEvent$item.html'>item</a></code> property points to the tree item currently
+under the mouse pointer. The <code><a href='RasterTreeEvent$dragValue.html'>dragValue</a></code> property contains the value
+being dragged over the item. The <code><a href='RasterTreeEvent$position.html'>position</a></code> property indicates where the
+dragged value is about to be dropped in relation to the tree <code><a href='RasterTreeEvent$item.html'>item</a></code>.
+<br><br>
+If the event handler wishes to accept the <code><a href='RasterTreeEvent$dragValue.html'>dragValue</a></code> at the current position,
+it must invoke <code><a href='RasterEvent$accept.html'>RasterEvent.accept()</a></code> to signal the control to
+highlight the <code><a href='RasterTreeEvent$item.html'>item</a></code> as a potential drop target (i.e. draw insertion line
+or shaded box at the item's location).
+<br><br>
+The event handler may overwrite the current <code><a href='RasterTreeEvent$position.html'>position</a></code> by passing a
+new <code>position</code> to the <code>accept()</code> method.
+If the event handler does not invoke <code>accept()</code>, the <code><a href='RasterTreeEvent$item.html'>item</a></code>
+will not be highlighted as a potential drop target, nor the "drop"
+event will fire on the <code><a href='RasterTreeEvent$item.html'>item</a></code> if the mouse button is released over the item. </tt>
+<tt><q>drop</q>         A value was dropped over an item. The <code><a href='RasterTreeEvent$item.html'>item</a></code> property
+points to the tree item receiving the drop.  The <code><a href='RasterTreeEvent$dragValue.html'>dragValue</a></code> property
+contains the value dropped over the <code>item</code>. The <code><a href='RasterTreeEvent$position.html'>position</a></code>
+property indicates where the <code><a href='RasterTreeEvent$dragValue.html'>dragValue</a></code> was dropped in relation
+to the <code><a href='RasterTreeEvent$item.html'>item</a></code>.
+<br><br>
+<b>Moving Local Items</b>
+<br><br>
+When dragging and dropping items inside the same control, the drag operation
+is said to be "local". In such case, the control's default behavior is to reorganize
+the dropped items automatically after the event handler returns from a "drop" event.
+If the event handler wishes to prevent the default "reorganize" behavior,
+it must invoke <code><a href='RasterEvent$cancel.html'>RasterEvent.cancel()</a></code> before it returns. </tt>
+<br><br>
+<b>Example: Hooking up a tree event handler</b><br>
+<pre class='ccode'><span class='creserved'>var</span> tree = <span class='creserved'>new</span> RasterTree(<span class='cstring'>"myDiv"</span>, ICONS16.COMPUTER, <span class='cstring'>"My Computer"</span>);
+tree.setEventHandler( myHandler );  <span class='ccomment'>//assign event handler</span>
+
+...
+
+<span class='creserved'>function</span> myHandler( evt )
+{
+    <span class='creserved'>switch</span> ( evt.type )
+    {
+       <span class='creserved'>case</span> <span class='cstring'>"click"</span>    : alert ( evt.item.text + <span class='cstring'>" was clicked"</span> );
+                         <span class='creserved'>break</span>;
+    }
+}</pre>
+
+
+
+
+
+
+    <h3>See Also</h3>
+    <ul>
+
+
+<li><a href="RasterEvent$cancel.html">RasterEvent.cancel()</a></li>
+
+<li><a href="RasterEvent$accept.html">RasterEvent.accept()</a></li>
+
+<li><a href="RasterTree$setEventHandler.html">RasterTree.setEventHandler()</a></li>
+    </ul>
+
+  </div>
+
+        </div>
+        <div id="index">
+           
+           
+               <a id="indexhtml" class="pageLink" href="index.html">Home</a>
+               <a id="exampleshtml" class="pageLink" href="examples.html">Examples</a>
+               <a id="downloadhtml" class="pageLink" href="download.html">Download</a>
+               <a id="licensehtml" class="pageLink" href="license.html">License</a>
+               <!--<a id="gettingstartedhtml" class="pageLink" href="_gettingstarted.html">Getting Started</a>-->
+           
+               
+                   <div class="subindex">
+                       <a id="idRasterTreeEvent" class="brickLink" href="RasterTreeEvent.html">RasterTreeEvent</a>
+                       
+                       <a id="iddragValue" class="propLink" href="RasterTreeEvent$dragValue.html">dragValue</a>
+                       <a id="idevent" class="propLink" href="RasterTreeEvent$event.html">event</a>
+                       <a id="iditem" class="propLink" href="RasterTreeEvent$item.html">item</a>
+                       <a id="idposition" class="propLink" href="RasterTreeEvent$position.html">position</a>
+                       <a id="idtree" class="propLink" href="RasterTreeEvent$tree.html">tree</a>
+                       <a id="idtype" class="propLink" href="RasterTreeEvent$type.html">type</a>
+                       
+                   </div>
+               
+           
+               <div class="subindex">
+               
+               <a id="idCURSORS" class="brickLink" href="CURSORS.html">CURSORS</a>
+               <a id="idICONS16" class="brickLink" href="ICONS16.html">ICONS16</a>
+               <a id="idICONS32" class="brickLink" href="ICONS32.html">ICONS32</a>
+               <a id="idRaster" class="brickLink" href="Raster.html">Raster</a>
+               <a id="idRasterCommand" class="brickLink" href="RasterCommand.html">RasterCommand</a>
+               <a id="idRasterCommandItem" class="brickLink" href="RasterCommandItem.html">RasterCommandItem</a>
+               <a id="idRasterControl" class="brickLink" href="RasterControl.html">RasterControl</a>
+               <a id="idRasterDialog" class="brickLink" href="RasterDialog.html">RasterDialog</a>
+               <a id="idRasterDialogEvent" class="brickLink" href="RasterDialogEvent.html">RasterDialogEvent</a>
+               <a id="idRasterEvent" class="brickLink" href="RasterEvent.html">RasterEvent</a>
+               <a id="idRasterGraphics" class="brickLink" href="RasterGraphics.html">RasterGraphics</a>
+               <a id="idRasterList" class="brickLink" href="RasterList.html">RasterList</a>
+               <a id="idRasterListEvent" class="brickLink" href="RasterListEvent.html">RasterListEvent</a>
+               <a id="idRasterListItem" class="brickLink" href="RasterListItem.html">RasterListItem</a>
+               <a id="idRasterMenu" class="brickLink" href="RasterMenu.html">RasterMenu</a>
+               <a id="idRasterMouse" class="brickLink" href="RasterMouse.html">RasterMouse</a>
+               <a id="idRasterMouseEvent" class="brickLink" href="RasterMouseEvent.html">RasterMouseEvent</a>
+               <a id="idRasterSplitter" class="brickLink" href="RasterSplitter.html">RasterSplitter</a>
+               <a id="idRasterSplitterEvent" class="brickLink" href="RasterSplitterEvent.html">RasterSplitterEvent</a>
+               <a id="idRasterSprite" class="brickLink" href="RasterSprite.html">RasterSprite</a>
+               <a id="idRasterTabbar" class="brickLink" href="RasterTabbar.html">RasterTabbar</a>
+               <a id="idRasterTabbarEvent" class="brickLink" href="RasterTabbarEvent.html">RasterTabbarEvent</a>
+               <a id="idRasterTabItem" class="brickLink" href="RasterTabItem.html">RasterTabItem</a>
+               <a id="idRasterToolbar" class="brickLink" href="RasterToolbar.html">RasterToolbar</a>
+               <a id="idRasterTree" class="brickLink" href="RasterTree.html">RasterTree</a>
+               <a id="idRasterTreeItem" class="brickLink" href="RasterTreeItem.html">RasterTreeItem</a>
+               </div>
+           
+        </div>
+
+        <span style="clear:both">&nbsp;</span>
+    </div>
+    <div class="copy">Copyright &copy; 2010-2017 Edwin R. L&oacute;pez</div>
+</body>
+</html>

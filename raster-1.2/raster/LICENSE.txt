@@ -1,0 +1,53 @@
+******************************************************************************
+***    The files in this directory are bound by the following licenses     ***
+******************************************************************************
+
+1.  Raster UI Library Source Code:
+    -------------------------------------------------------------------------
+    
+    Copyright (C) 2010 Edwin R. Lopez
+    http://www.lopezworks.info/raster
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation LGPL v2.1
+    (http://www.gnu.org/licenses/).
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+    02110-1301  USA    
+
+
+2.  Icons included in "images/_icons16.png" and "images/_icons16.gif" files:
+    -------------------------------------------------------------------------
+
+    Images in these files are based on the Silk Web Icon Set v1.3 by
+    Mark James (http://www.famfamfam.com/lab/icons/silk/).
+
+    These icons are available under the Creative Commons Attribution
+    License 2.5 (http://creativecommons.org/licenses/by/2.5).
+
+    You can distribute, remix, tweak, and build upon these icons,
+    even commercially, provided that you credit Mark James within a
+    readme file or equivalent documentation for the software which
+    uses the icons.
+
+
+3.  Icons included in "images/_icons32.png" file:
+    -------------------------------------------------------------------------
+
+    Images in this file are based in a subset of the Tango Base Icon
+    Library v0.8.90 by the Tango Desktop Project
+    (http://tango.freedesktop.org).
+
+    The Tango Base Icon Library is released to the Public Domain. The
+    authors ask that you please attribute the Tango Desktop Project
+    in the credits or documentation for the software that use these
+    icons.
+

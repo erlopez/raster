@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Mesh3D</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+
+<script src="vector.js" type="text/javascript"></script>
+<script type="text/javascript">
+/****************************************************************
+ * Globals
+ ****************************************************************/
+var dialog, graphics, vector;
+var rx=0, ry=0; //drag counter, rotation amounts - in radians
+var SIZE = 30;  //width x depth of the shape
+
+/****************************************************************
+ * Define levels of shadings
+ ****************************************************************/
+var shades = [ "#000", "#111", "#222", "#333", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa", "#bbb", "#ccc", "#ddd", "#eee", "#fff" ];
+
+
+/****************************************************************
+  "Show Window" button shows the window again
+ ****************************************************************/
+function showWindow()
+{
+    dialog.center();
+    dialog.show();
+}
+
+
+/****************************************************************
+  Handles mouse down on the graphics canvas
+  Starts a drag operation
+ ****************************************************************/
+function mouseDownHandler( event )
+{
+    RasterMouse.startDrag(event, null, null, mouseMoveHandler);
+}
+
+/****************************************************************
+ * Handles RasterMouse.startDrag() events started above in
+ * the mouse down function.
+ ****************************************************************/
+function mouseMoveHandler( e )
+{
+    if ( e.type=="move" || e.type=="up" )
+    {
+        var _ry = ry - (e.x - e.initial.x)/100;
+        var _rx = rx + (e.y - e.initial.y)/100;
+
+        vector.rotate(_rx, _ry, 0);
+        renderWire();
+        //renderSolid(); //IE can't handle this, looks cool in all other browsers though
+
+        if ( e.type=="up" ) // Apply transformation
+        {
+            ry=_ry;
+            rx=_rx;
+            renderSolid();
+        }
+    }
+}
+
+/****************************************************************
+ * Renders the mesh using wireframe
+ ****************************************************************/
+function renderWire()
+{
+    graphics.clear();
+    graphics.setColor( "blue" );
+    for ( var j=0; j < SIZE; j++)
+    {
+        var line = vector.row(j, SIZE, SIZE);
+        graphics.polyline( line );
+
+        line = vector.col(j, SIZE, SIZE);
+        graphics.polyline( line );
+    }
+}
+
+
+/****************************************************************
+ * Renders the mesh using solid shades
+ ****************************************************************/
+function renderSolid()
+{
+    graphics.clear();
+    var faces = vector.faces(SIZE);
+    var yRange = Math.abs(faces.maxY-faces.minY);
+
+    // Paint all faces, shading(c) each according its elevation(kk)
+    for ( var j=0; j < faces.length; j++)
+    {
+        var yy = yRange - (faces[j].y - faces.minY); //empirical value,  determine a palette color for a polygon based in its Y elevation
+        var elevation = (yy) / yRange * shades.length;
+        var c = shades[ Math.round(Math.min(shades.length - 1, Math.max(elevation, 0))) ];
+        graphics.setFillColor(c);
+        graphics.setColor(shades[ Math.round(Math.min(shades.length - 1, Math.max(elevation - 3, 3))) ]);
+
+        graphics.polyline( faces[j], true );
+    }
+}
+
+/****************************************************************
+ * Main - called on onload
+ ****************************************************************/
+function main()
+{
+    Raster.config("../../raster");
+
+    dialog = new RasterDialog(null, ICONS16.APPLICATION, "Mesh3D Demo");
+    dialog.setSize( 640, 480);
+    dialog.setMovable( true );
+    dialog.center();
+    dialog.setButtons(false,false,false,true);
+    dialog.show();
+
+    // Create canvas or div#VML in IE
+    graphics = new RasterGraphics( dialog, 640, 480, null);
+    graphics.controlBox.onmousedown = mouseDownHandler;
+    graphics.setWeight(1);
+    graphics.setOrigin(320, 240);
+    graphics.setColor( "black" );
+    graphics.controlBox.style.background = "black url(meshbk.jpg) no-repeat";
+    
+    // Create vector instance
+    vector = new Vector(SIZE*SIZE);
+
+    // Populate vector with points for the 3D mesh
+    for ( var j=0; j < SIZE; j++)
+        for ( var i=0; i < SIZE; i++)
+            vector.setPoint(j*SIZE+i, (i-SIZE/2)*20, -80*Math.sin(i*0.3)+99*Math.sin(j*0.3), (j-SIZE/2)*20 );
+
+
+    vector.rotate( 0.1, -0.8, 0);
+    renderSolid();
+}
+
+</script>
+<style type="text/css">
+   html, body { height:100%; border:0; margin:0; overflow:hidden;  }
+   body { font-family: Tahoma, serif; font-size: 9pt; background: #888; }
+   li { padding-top: 8px}
+
+   #pageContent { position: relative; overflow-y: auto; background: #fff;
+                  width:100%; height:100%; }
+   h2 { font-size: 20px }
+
+</style>
+</head>
+<body>
+
+<div id="pageContent" >
+    <div style="padding:10px">
+        <h2>This demo demonstrates use of Raster Graphics, Dialog, and Mouse.</h2>
+        <ul>
+            <li>You can drag the window around.</li>
+            <li>You can close the window, press "Show Window" to show it again.</li>
+            <li>Drag the shape to rotate it manually. If you are using IE8 or earlier version,
+                be patient and move slow to see the effect (IE8 and earlier use a very slow API for graphics, VML).
+                Try Firefox, Chrome, Safari, or IE9 for a much faster/butter-smooth experience.</li>
+        </ul>
+        <input type="button" onclick="showWindow();" value="Show Window"  />
+        <br><br>
+
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

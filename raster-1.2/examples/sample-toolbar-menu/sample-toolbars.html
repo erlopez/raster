@@ -1,0 +1,116 @@
+<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- *****************************************************************************
+     This file is a DEMO of the Raster UI Library.
+     http://www.lopezworks.info/raster
+
+     Copyright (C) 2010 Edwin R. Lopez
+
+     This source code is free software; you can redistribute it and/or
+     modify it under the terms of the GNU Lesser General Public
+     License as published by the Free Software Foundation LGPL v2.1
+     (http://www.gnu.org/licenses/).
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public
+     License along with this library; if not, write to the Free Software
+     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+     02110-1301  USA.
+    ***************************************************************************** -->
+<html>
+<head>
+<title>Raster - Sample Toolbars and Menus</title>
+<link rel="stylesheet" href="../../raster/themes/modern/raster.css">
+<!-- Remove next line is no IE6 support is needed -->
+<!--[if lte IE 6]><link rel="stylesheet" href="../../raster/themes/modern/raster-ie6.css"><![endif]-->
+<script src="../../raster/scripts/min/raster-min-v1.2.js" type="text/javascript"></script>
+<script src="gui-helper.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+/***********************************************************
+ * Raster will call this method after the page loads.
+ * (only if main() is defined)
+ ***********************************************************/
+function main()
+{
+    //0. Tell Raster where the /raster folder is
+    Raster.config("../../raster");
+
+    //1. Create commands, menus, and toolbars
+    setupCommands();
+    setupMenus();
+    setupToolbars();
+
+    //2. Prevent browser's context menu from showing
+    Raster.addListener( document, "contextmenu", Raster.stopEvent );
+
+    //3. clear log console
+    document.getElementById( 'txt' ).value='';
+}
+
+/***********************************************************
+ * Print text to the textarea
+ ***********************************************************/
+function log( s )
+{
+    var txt = document.getElementById( "txt" );
+    txt.value += (txt.value.length==0 ? "" : "\n") + s;
+    txt.scrollTop = txt.scrollHeight - txt.clientHeight; //scroll to the bottom
+}
+
+/***********************************************************
+ * Event handler for executed commands
+ ***********************************************************/
+function commandHandler( cmd )
+{
+    log ( "command clicked: '" + cmd.id + "'" );
+
+    // toggle SPAM and BLOCK mail commands
+    if ( cmd.id=="m.spam" || cmd.id=="m.block" )
+        cmd.setSelected( !cmd.isSelected );
+}
+
+</script>
+<style type="text/css">
+   body { margin:0; background:#fff; font-family: tahoma, serif; font-size: 9pt}
+   .bar { border: 1px solid; border-color: #fff #BAC9DB #BAC9DB #fff }
+   #menubar, #toolbar16 { height:28px }
+   #toolbar32 { height:64px }
+
+</style>
+</head>
+<body>
+    <!-- the toolbar containers -->
+    <div id="menubar" class="bar"></div>
+    <div id="toolbar32" class="bar"></div>
+    <div id="toolbar16" class="bar"></div>
+
+    <div style="padding: 30px 10px;">
+        <h3>Demonstrates use of command groups, toolbars, and menus:</h3>
+        <ul>
+            <li>Resize the window horizontally; The toolbar "chevron" appears for buttons that doesn't fit.</li>
+            <li>The JUNK and BLOCK buttons are togglable.</li>
+        </ul>
+
+
+
+        <!-- textbox used for logging -->
+        Log Output:<br>
+        <textarea id="txt" rows="10" cols="72"></textarea>
+        <input type="button" value="clear log" onclick="document.getElementById( 'txt' ).value='';">
+
+
+        <br><br><br>
+        <b>Credits:</b><br>
+         - 16x16 icons - Silk Web Icon Set v1.3 by Mark James - <a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">www.famfamfam.com</a>
+        <br>
+         - 32x32 icons - Tango Desktop Project <a href="http://tango.freedesktop.org" target="_blank">http://tango.freedesktop.org</a>
+    </div>
+
+
+
+</body>
+</html>
